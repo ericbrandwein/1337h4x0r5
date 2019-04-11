@@ -1,52 +1,73 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
-import sys, os
-from math import log as LOG
-from scapy.all import *
+import sys
+import os
+from math import log2
+from scapy.all import sniff, ARP
 
-def MostrarNodosDistinguidos(source):
-	H = 0
-	N = sum(source.values())
 
-	nodes = []
-	for a, c in source.iteritems():
-		p = c/float(N)
-		i = -LOG(p, 2)
-		H += p * i
-		nodes.append((a,i))
+def mostrar_nodos_distinguidos(source):
+    entropia = 0
+    apariciones_totales = sum(source.values())
+    cant_simbolos = len(source)
+    if cant_simbolos:
+        nodes = []
+        for simbolo, apariciones in source.items():
+            probabilidad_simbolo = apariciones / float(apariciones_totales)
+            informacion = -log2(probabilidad_simbolo)
+            entropia += probabilidad_simbolo * informacion
+            nodes.append((simbolo, informacion))
 
-	nodes.sort(key=lambda n: n[1])
-	print "Entropia", H, "Entropia maxima", LOG(len(nodes),2)
-	for a,i in nodes[:20]:
-		print a +"\t"+ ("%.5f" % (i-H)) + "\t" + ("*" if i-H < 0 else "")
+        nodes.sort(key=lambda n: n[1])
+        print("Entropía:", entropia, "\tEntropía máxima:", log2(cant_simbolos))
+        print("Símbolo\t\tInformación - Entropía\t\tDistinguido")
+        for simbolo, informacion in nodes[:20]:
+            print(simbolo + "\t" + ("%.5f" % (informacion - entropia)) +
+                  "\t\t\t" + ("*" if informacion - entropia < 0 else ""))
 
-def entropy_callback(pkt):
-	try:
-		if pkt[ARP].op == 1: #who-has (request)
-			if pkt[ARP].psrc not in wh_src: wh_src[pkt[ARP].psrc]=0
-			wh_src[pkt[ARP].psrc]+=1
-			if pkt[ARP].pdst not in wh_dst: wh_dst[pkt[ARP].pdst]=0
-			wh_dst[pkt[ARP].pdst]+=1
 
-		if pkt[ARP].op == 2: #is-at (response)
-			if pkt[ARP].psrc not in ia_src: ia_src[pkt[ARP].psrc]=0
-			ia_src[pkt[ARP].psrc]+=1
-			if pkt[ARP].pdst not in ia_dst: ia_dst[pkt[ARP].pdst]=0
-			ia_dst[pkt[ARP].pdst]+=1
-	except:
-		return
+def entropy_callback(paquete):
+    try:
+        if paquete[ARP].op == 1:  # who-has (request)
+            if paquete[ARP].psrc not in who_has_sources:
+                who_has_sources[paquete[ARP].psrc] = 0
+            who_has_sources[paquete[ARP].psrc] += 1
+            if paquete[ARP].pdst not in who_has_destinations:
+                who_has_destinations[paquete[ARP].pdst] = 0
+            who_has_destinations[paquete[ARP].pdst] += 1
 
-	os.system("clear")
-	MostrarNodosDistinguidos(wh_dst)
-	MostrarNodosDistinguidos(wh_src)
-	#MostrarNodosDistinguidos(ia_dst)
-	#MostrarNodosDistinguidos(ia_src)
+        if paquete[ARP].op == 2:  # is-at (response)
+            if paquete[ARP].psrc not in is_at_sources:
+                is_at_sources[paquete[ARP].psrc] = 0
+            is_at_sources[paquete[ARP].psrc] += 1
+            if paquete[ARP].pdst not in is_at_destinations:
+                is_at_destinations[paquete[ARP].pdst] = 0
+            is_at_destinations[paquete[ARP].pdst] += 1
+    except:
+        return
 
-wh_src = {}
-wh_dst = {}
-ia_src = {}
-ia_dst = {}
+    os.system("clear")
+    print("~~~~~ WHO-HAS ~~~~~")
+    print("=== Orígenes ===")
+    mostrar_nodos_distinguidos(who_has_sources)
+    print("\n=== Destinos ===")
+    mostrar_nodos_distinguidos(who_has_destinations)
+    print("\n~~~~~ IS-AT ~~~~~")
+    print("=== Orígenes ===")
+    mostrar_nodos_distinguidos(is_at_destinations)
+    print("\n=== Destinos ===")
+    mostrar_nodos_distinguidos(is_at_sources)
+    global paquetes_totales
+    paquetes_totales += 1
+    print("\nCantidad de paquetes ARP: " + str(paquetes_totales))
+    cantidad_paquetes_is_at = sum(is_at_destinations.values())
+    print("Cantidad de paquetes IS-AT: " + str(cantidad_paquetes_is_at))
+
+
+who_has_sources = {}
+who_has_destinations = {}
+is_at_sources = {}
+is_at_destinations = {}
+paquetes_totales = 0
 
 sniff(prn=entropy_callback, filter="arp")
-
-
