@@ -1,0 +1,6 @@
+args <- commandArgs(trailingOnly = TRUE)
+
+if (length(args) != 1) { stop("Pasar por parametro el path a los datos.")  }
+
+source("fuente-s1.R")
+punto1(args[1])
