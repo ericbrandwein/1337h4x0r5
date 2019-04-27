@@ -1,6 +1,20 @@
+
 import sys, os
 from math import log as LOG
 from scapy.all import *
+
+i = 0
+def i_pack():
+	global i
+	i +=1
+	print "paquete nro : ", i
+	os.system("clear")		
+	print "paquete nro : ", i
+	os.system("clear")		
+	print "paquete nro : ", i
+	os.system("clear")		
+	print "paquete nro : ", i
+	
 
 def mostrarNodos(source):
 	H = 0
@@ -16,25 +30,26 @@ def mostrarNodos(source):
 	# nodes.sort(key=lambda n: n[1])
 	print "Entropia", H, "Entropia maxima", LOG(len(nodes),2)
 	for a,p in nodes:
-		print a , ("%.5f" % p) 
+		print a , " " , ("%.5f" % p) 
 
-def trafico_type(pkt):
-	if pkt.dst == 'ff:ff:ff:ff:ff:ff': # es broadcast
-		if ('bcast',hex(pkt.type)) not in fuente_s1:
-			fuente_s1.append(('bcast',hex(pkt.type)))
-			frec[('bcast',hex(pkt.type))] = 0
-		frec[('bcast',hex(pkt.type))] += 1
-	else:				  # es unicast (o quiza multicast)	
-		if ('unicast',hex(pkt.type)) not in fuente_s1:
-			fuente_s1.append(('unicast',hex(pkt.type)))
-			frec[('unicast',hex(pkt.type))] = 0
-		frec[('unicast',hex(pkt.type))] += 1
-		
-		
+def trafico(pkt):
+	i_pack()
+	try:
+		if pkt.dst == 'ff:ff:ff:ff:ff:ff': # es broadcast
+			if ('bcast',hex(pkt.type)) not in frec:
+				frec[('bcast',hex(pkt.type))] = 0
+			frec[('bcast',hex(pkt.type))] += 1
+		else:				  # es unicast (o quiza multicast)	
+			if ('unicast',hex(pkt.type)) not in frec:
+				frec[('unicast',hex(pkt.type))] = 0
+			frec[('unicast',hex(pkt.type))] += 1
+	except:	
+		 return
 
-fuente_s1 = []
+
 frec = {}	
 
-sniff(prn=trafico_type, count=12000)
-print fuente_s1
-mostrarNodos(frec)	
+sniff(prn=trafico, count=12000)
+print "mi fuente"
+print frec.items() , "\n"
+mostrarNodos(frec)
