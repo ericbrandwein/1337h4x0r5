@@ -1,0 +1,5 @@
+Punto 1.1
+
+Para obtener la tablita:
+
+$ Rscipt punto1.Rscript ../datos/s1-uchi.csv # o la muestra que sea
