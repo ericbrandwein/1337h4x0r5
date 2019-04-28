@@ -2,18 +2,19 @@ library(ggplot2)
 
 source("generics.R")
 source("fuente-s1.R")
+source("graficos.R")
 
 
-grafico_barras.s1 <- function(info.src) {
-    stopifnot("info.src" %in% class(info.src))
-    ggplot(data = info.src, aes(x=symbols, y=info)) +
-        geom_bar (stat = "identity") +
-        geom_hline(yintercept = entropia(info.src),
-                   color      = "blue", show.legend = TRUE) +
-        geom_hline(yintercept = entropia_max(info.src),
-                   color      = "red") +
-        ggtitle("Información de cada símbolo")
-}
+## grafico_barras.s1 <- function(info.src) {
+##     stopifnot("info.src" %in% class(info.src))
+##     ggplot(data = info.src, aes(x=symbols, y=info)) +
+##         geom_bar (stat = "identity") +
+##         geom_hline(yintercept = entropia(info.src),
+##                    color      = "blue", show.legend = TRUE) +
+##         geom_hline(yintercept = entropia_max(info.src),
+##                    color      = "red") +
+##         ggtitle("Información de cada símbolo")
+## }
 
 out_filename <- "ejemplo.png"
 

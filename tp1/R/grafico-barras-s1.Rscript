@@ -1,0 +1,22 @@
+args <- commandArgs(trailingOnly = TRUE)
+
+if (length(args) != 1) { stop("Pasar por parametro el path a los datos.")  }
+
+library(ggplot2)
+
+source("generics.R")
+source("fuente-s1.R")
+source("graficos.R")
+
+filename <- args[1]
+
+out_filename <- paste(
+    basename(tools::file_path_sans_ext(filename)),
+    "barras.png", sep="-")
+
+png(out_filename)
+data <- fuente.s1(filename)
+grafico_barras.s1(data)
+dev.off()
+
+cat ("output en ", out_filename, "\n")
