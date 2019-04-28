@@ -3,5 +3,5 @@ args <- commandArgs(trailingOnly = TRUE)
 if (length(args) != 1) { stop("Pasar por parametro el path a los datos.")  }
 
 source("generics.R")
-source("fuente-s1.R")
-punto1(args[1])
+source("fuente-s2.R")
+punto2a(args[1])

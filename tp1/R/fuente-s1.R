@@ -1,49 +1,49 @@
-read_s1_data <- function (filename) {
+read_data.s1 <- function (filename) {
     tabla <- read.csv(filename)
     stopifnot(all(names(tabla) == c("method", "dest_type")))
     tabla$dest_type <- as.numeric(tabla$dest_type) - 1
+    class(tabla) <- c(class(tabla), "sample.s1")
     tabla
 }
 
-get_symbol_table <- function(data) {
+get_symbol_table.sample.s1 <- function(data) {
     res <- unique(data)
     row.names(res) <- 1:nrow(res)
     res
 }
 
-get_symbol_names <- function (fuente) {
-    fuente$dest_type <- ifelse(fuente$dest_type == 0, "unicast", "broadcast")
-    apply(fuente, 1, function(row) paste(row, collapse=":"))
+get_symbol_names.sample.s1 <- function (data) {
+    symbols <- unique(data)
+    row.names(symbols) <- 1:nrow(symbols)
+    symbols$dest_type <- ifelse(symbols$dest_type == 0, "unicast", "broadcast")
+    apply(symbols, 1, function(row) paste(row, collapse=":"))
 }
 
 
-frecuencias_absolutas <- function(data) {
-    apply(get_symbol_table(data), 1, function(r0) sum(apply(data, 1, function(r) all(r == r0))))
+frecuencias_absolutas.sample.s1 <- function(data) {
+    apply(get_symbol_table.sample.s1(data), 1, function(r0) sum(apply(data, 1, function(r) all(r == r0))))
 }
 
-probabilidades <- function(data, n = nrow(data)) {
+probabilidades.sample.s1 <- function(data, n = nrow(data)) {
     frecuencias_absolutas(data) / n
 }
 
-probas_to_informaciones <- function(probas) { log2(1/probas) }
 
-fuente <- function(data.filename) {
-    data <- read_s1_data (data.filename)
-    fuente <- get_symbol_table(data)
+fuente.s1 <- function(data.filename) {
+    data <- read_data.s1 (data.filename)
+    fuente <- get_symbol_table.sample.s1(data)
     symbols <- get_symbol_names(fuente)
     proba <- probabilidades(data)
     info <- probas_to_informaciones(proba)
-    data.frame(symbols, proba, info)
+    info.src <- data.frame(symbols, proba, info)
+    class(info.src) <- c(class(info.src), "info.src")
+    info.src
 }
 
-entropia <- function(fuente) { sum(fuente$proba * fuente$info) }
-
-entropia.max <- function(fuente) { log2(nrow(fuente)) }
-
 punto1 <- function(data.filename) {
-    s1 <- fuente(data.filename)
+    s1 <- fuente.s1(data.filename)
     entr <- entropia(s1)
-    entr.max <- entropia.max(s1)
+    entr.max <- entropia_max(s1)
     print(s1)
     cat("entropia: ", entr)
     cat("\tentropia maxima: ", entr.max, "\n")
