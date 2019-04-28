@@ -1,6 +1,11 @@
-read_data.s2a <- function(filename) {
+read_data.s2 <- function(filename) {
     tabla <- read.csv(filename)
     stopifnot(all(c("source", "destination") %in% names(tabla)))
+    tabla
+}
+
+read_data.s2a <- function(filename) {
+    tabla <- read_data.s2(filename)
     ips <- unlist(list(tabla$source, tabla$destination))
     tabla <- data.frame(ips)
     class(tabla) <- c(class(tabla), "sample.s2a")
@@ -39,3 +44,4 @@ punto2a <- function(data.filename) {
     cat("entropia: ", entr)
     cat("\tentropia maxima: ", entr.max, "\n")
 }
+
