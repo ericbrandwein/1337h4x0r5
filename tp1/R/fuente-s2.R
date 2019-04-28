@@ -1,11 +1,3 @@
-## s2 como ips.
-## asumo una tabla las columnas source destination.
-
-## se usa asi:
-## >>> x  <- read__sniff("../datos/casa-de-erick")
-## >>> tablita <- frecs(x)
-## >>> head(talita, 30)
-
 read_data.s2a <- function(filename) {
     tabla <- read.csv(filename)
     stopifnot(all(c("source", "destination") %in% names(tabla)))

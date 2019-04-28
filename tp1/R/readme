@@ -7,3 +7,8 @@ $ Rscript punto1.Rscript ../datos/s1-uchi.csv # o la muestra que sea
 Punto 1.2a
 
 $ Rscript punto1.Rscript ../datos/casa-eric.csv
+
+
+Para graficar ejemplo:
+
+$ Rscript grafico-ejemplo.Rscript
