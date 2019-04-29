@@ -1,7 +1,7 @@
 #!/bin/python3
 
 from scapy.all import sniff
-
+import pdb
 
 def tipo_de_destino(paquete):
     if paquete.dst == 'ff:ff:ff:ff:ff:ff':  # es broadcast
@@ -13,7 +13,7 @@ def tipo_de_destino(paquete):
 def mostrar_paquete(paquete):
     print(
         ','.join([
-            str(paquete.type),
+            paquete.payload.name,
             tipo_de_destino(paquete),
         ])
     )
