@@ -1,0 +1,2 @@
+informe:
+	pdflatex informe.tex
