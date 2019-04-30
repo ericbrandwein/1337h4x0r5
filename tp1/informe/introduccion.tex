@@ -1,5 +1,19 @@
-Este TP se trata de capturar los paquetes enviados en distintas redes para extraer
-de ellos una fuente de información y analizarlos para descubrir qué símbolos
-son los que más aparecen y otras mediciones.
+En este TP se lleva a cabo el análisis de distintas redes a partir de la captura de paquetes, modelandolos de diversas formas utilizando conceptos de la teoría de la información.
+ 
+ Un concepto importante en este contexto es el de información. Sea $E$ un evento que ocurre con probabilidad $P(E)$. Decimos que al ocurrir dicho evento hemos recibido :
+ $$
+ I(E) = \log{\frac{1}{P(E)}}
+ $$
+ unidades de información.
+ 
+Según la base del logaritmo usada sea $10$, $e$ o $2$ decimos que hemos recibido Hartleys, nats o bits. 
+ 
+Otro concepto importante es el de fuente de información con memoria nula. Una fuente de este tipo emite una secuencia de símbolos provenientes de un alfabeto fijo de un tamaño  finito $S = \{s_1, \dots, n_n\}$, cada uno de los cuales tiene un aprobabilidad de ocurrencia fija. Se dice que tiene "memoria nula" porque la probabilidad de emitir un símbolo cualquiera es independiente de los símbolos emitidos anterioremente.
 
+Un concepto ligado una una fuente así definida es el de entropía, que es la suma de la información asociada a cada símbolo multiplicada por su probabilida, es decir:
+$$
+H(S) = \sum_{s \in S} P(s)I(s)
+$$
+
+Una propiedad que vamos a tener en cuenta en nuestro trabajo es que el valor máximo de la entropía (dada una fuente y variando las probabilidade s) es $log |S|$, valor que es el valor que alcanza cuando todos los spimbolos son equiprobables.
 \blindtext
