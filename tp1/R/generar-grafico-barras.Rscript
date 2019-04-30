@@ -1,0 +1,26 @@
+library(ggplot2)
+
+source("generics.R")
+source("fuente-s1.R")
+source("graficos.R")
+
+args = commandArgs(trailingOnly=TRUE)
+# test if there is at least one argument: if not, return an error
+if (length(args) == 0) {
+    stop("At least one argument must be supplied (input file).n", call.=FALSE)
+} else {
+    in_filename <- args[1]
+    if (length(args) == 1) {
+        # default output file
+        out_filename <- "out.png"
+    } else {
+        out_filename <- args[2]
+    }
+}
+
+png(out_filename)
+data <- fuente.s1(in_filename)
+grafico_barras.s1(data)
+dev.off()
+
+cat ("output en ", out_filename, "\n")
