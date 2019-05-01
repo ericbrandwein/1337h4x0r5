@@ -1,18 +1,14 @@
 import sys
-import csv
-
-DEST_TYPE_ROW_NAME = 'dest_type'
-BROADCAST_STRING = 'bcast'
+from s1_reader import S1Reader
 
 
 def broadcast_percentage(filename):
-    amount = 0
     total = 0
-    with open(filename, newline='') as csvfile:
-        csvreader = csv.DictReader(csvfile)
-        for row in csvreader:
+    amount = 0
+    with S1Reader(filename) as reader:
+        for row in reader:
             total += 1
-            if row[DEST_TYPE_ROW_NAME] == BROADCAST_STRING:
+            if row.is_broadcast():
                 amount += 1
 
     print("Broadcast amount:", amount)
