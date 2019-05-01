@@ -1,15 +1,21 @@
 %Entre los métodos y condiciones de cada
 %experimento se debe detallar la descripción de la red -tipo, tamaño, modo de acceso, etc.-, las características
-%de la muestra -tamaño, horario, día de la semana, etc.- y la justificación de la elección del modelo de la fuente
-%S2.
-%La presentación de los resultados debe efectuarse para cada red mediante, a
+%de la muestra -tamaño, horario, día de la semana, etc.- y la justificación de la elección del modelo de la fuente S2.
 
 % Explicar las fuentes de información S1 y S2.
 Para evaluar las características de las redes utilizamos dos diferentes modelos
 de fuentes de información de memoria nula. La primera, que llamamos S1, contiene
 los símbolos compuestos por la combinación del tipo de destino de la trama
 (unicast o broadcast) y el protocolo de la capa inmediata superior encapsulado
-en la misma. La segunda, llamada S2, \textbf{COMPLETAR}.
+en la misma. La segunda, llamada S2, está conformada por los símbolos 
+correspondientes a las direcciones IP, de destino u origen, involucradas en los 
+paquetes con protocolo ARP que se encuentren en la red. Este modelo
+nos permite disminuir la cantidad de símbolos totales en relación a los
+modelos que toman cada símbolo como la combinación de la dirección de 
+origen y destino de cada trama. Al tener menos símbolos, cada símbolo
+está representado por una mayor cantidad de paquetes, y entonces podemos
+definir con más seguridad cuáles son los símbolos destacados. Además,
+la baja cantidad de símbolos hace más fácil el análisis del modelo.
 
 \subsection{Casa de Eric}
 El primer experimento fue realizado en la casa de uno de los integrantes del grupo, por
