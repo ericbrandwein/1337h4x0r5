@@ -71,19 +71,18 @@ gráfico que nos ayudará a analizar mejor la muestra.
 
 % GRAFICULO
 
+%¿Cuál es la función de cada uno de los protocolos encontrados? 
+%¿Cuáles son de control y cuáles transportan datos de usuario? 
 
-Se puede ver que el símbolo LLC:broadcast es el que aporta mayor información.
+Se puede ver que el símbolo LLC:unicast es el que aporta mayor información.
 Suponemos que son paquetes internos de la biblioteca, y que entonces son
 superados en número por los paquetes enviados por los usuarios de la biblioteca.
-También se puede ver que los IP:broadcast son los que menos información brindan.
-Esto quiere decir que son los más enviados. 
-\textbf{JUSTIFICAR POR QUÉ HAY MENOS BROADCAST QUE UNICAST PERO EN EL GRÁFICO
-PARECE LO CONTRARIO}.
+También se puede ver que los IP:unicast son los que menos información brindan,
+seguidos por los IPv6:unicast. Esto quiere decir que son los más enviados.
+Estos son los paquetes que en su mayoría contienen datos de usuario,
+a diferencia de los de ARP, que sirven para relacionar las direcciones IP con
+las MAC de sus dueños; y los de IP:broadcast. Estos se utilizan para control de red.
 
-
-¿Cuál es la función de cada uno de los protocolos encontrados? 
-¿Cuáles son de control y cuáles transportan datos de usuario? 
-\textbf{ESTO NO LO SÉ, RESPONDANLO USTEDES.}
 % ¿Se han encontrado símbolos distinguidos? ¿Les otorga algún significado?
 
 % TODO
