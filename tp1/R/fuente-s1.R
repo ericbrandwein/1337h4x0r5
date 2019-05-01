@@ -1,7 +1,7 @@
 read_data.s1 <- function (filename) {
-    tabla <- read.csv(filename)
+    tabla <- read.csv(filename, stringsAsFactors=FALSE)
     stopifnot(all(names(tabla) == c("method", "dest_type")))
-    tabla$dest_type <- as.numeric(tabla$dest_type) - 1
+    #tabla$dest_type <- as.numeric(tabla$dest_type) - 1
     class(tabla) <- c(class(tabla), "sample.s1")
     tabla
 }
@@ -13,9 +13,8 @@ get_symbol_table.sample.s1 <- function(data) {
 }
 
 get_symbol_names.sample.s1 <- function (data) {
-    symbols <- unique(data)
+    symbols <- get_symbol_table.sample.s1(data)
     row.names(symbols) <- 1:nrow(symbols)
-    symbols$dest_type <- ifelse(symbols$dest_type == 0, "unicast", "broadcast")
     apply(symbols, 1, function(row) paste(row, collapse=":"))
 }
 
@@ -34,8 +33,9 @@ fuente.s1 <- function(data.filename) {
     fuente <- get_symbol_table.sample.s1(data)
     symbols <- get_symbol_names(fuente)
     proba <- probabilidades(data)
+    
     info <- probas_to_informaciones(proba)
-    info.src <- data.frame(symbols, proba, info)
+    info.src <- data.frame(symbols, proba, info, stringsAsFactors=FALSE)
     class(info.src) <- c(class(info.src), "info.src")
     info.src
 }

@@ -31,6 +31,10 @@ tabla-s2-eric:
 	Rscript punto2a.Rscript $(DATOS_S2)/casa-eric.csv > \
 	../tablas/$@
 
+tabla-s2-exactas:
+	Rscript punto2a.Rscript $(DATOS_S2)/exactas-wifi-arp.csv > \
+	../tablas/$@
+
 
 
 barras-s1-eric:

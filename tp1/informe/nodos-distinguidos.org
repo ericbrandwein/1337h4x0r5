@@ -33,7 +33,22 @@ red 100.64.0.0/19.
 La entropía encontrada en esta fuente de información es de 3.569424,
 lo que da lugar a que existen tres nodos distinguidos (considerando a
 aquellos cuya información es menor), a saber, los nodos
-10.128.128.128, 100.64.1.36 y 100.64.12.61.
+10.128.128.128, 100.64.22.24 y 100.64.0.1.
+
+Dado que observando los números de IP supusimos que existían dos
+subredes, quisimos observar los vínculos entre los distintos nodos
+para ver el grafo subyascente. Es decir, graficamos el grafo que está
+compuesto por aquellas aristas que conectan dos nodos de distinta red,
+lo cual se ve a continuación:
+
+[biblio-grafo-redesAB.png]
+
+Puede verse en este grafo qeu los dos nodos distinuidos de mayor
+ocurrencia están presentes: el 10.128.128.128 y el 100.64.22.24, los
+cuales están conectados mediante dos aristas con orientaciones
+diferentes (o sea cada uno envió algún paquete al otro). Por otra
+parte, todos los demás nodos pertenecen a 100.64.0.0/19 y reciben
+paquetes de 10.128.128.128 (son paquetes who-has).
 
 
 
