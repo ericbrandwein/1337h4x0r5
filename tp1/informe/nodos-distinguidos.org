@@ -7,6 +7,33 @@ compuesto de 255 símbolos: los IPs del 192.168.0.1 a 192.168.0.254 y
 la IP 0.0.0.0.
 
 La entropía en el muestreo realizado en esa red dió un valor de
-5.010991.
+5.010991. Si comparamos la información de cada symbolo (estimando su
+probabilidad de ocurrencia con la frecuencia empírica obtenida en la
+muestra) con la entropía de la fuente calculada también con la
+muestra, obeservamos que existe un único nodo distinguido, a saber el
+nodo con el número 192.168.0.1, el cual tiene una frecuencia mucho
+mayor y por ende una cantidad de información menor: es el único
+símbolo que transmite uan información menor a la entropía de la
+fuente. Este echo no es casual, ya que ese es el IP correspondiente al
+default gateway (de acuerdo al comando ip route corrido en la
+computadora donde se realizó el muestreo), y probablemnte sea por lo
+tanto el router de la red.
+
+** red biblio
+La segunda red observada es la denominada "biblio". Utilizando el
+modelo S2 en esta muestra obtuvimos un alfabeto de 178 símbolos. Estos
+son, el IP 0.0.0.0, el 10.128.128.128, el 10.5.47.7, 98 que empiezan
+con 10.92, 74 con 100.64 y por último los IPs 169.254.193.173 y
+169.254.216.44. Los IPs que empiezan con 10.96 en realidad pertencen
+al rango 10.96.0.* a 10.96.15.*, con lo que puede que pertenezcan a la
+red 10.92.0.0/20. Las IPs que comienzan con 100.64 están en el rango
+de 100.64.0.* a 100.64.31.* por lo que probablemente pertenezcan a la
+red 100.64.0.0/19.
+
+La entropía encontrada en esta fuente de información es de 3.569424,
+lo que da lugar a que existen tres nodos distinguidos (considerando a
+aquellos cuya información es menor), a saber, los nodos
+10.128.128.128, 100.64.1.36 y 100.64.12.61.
+
 
 
