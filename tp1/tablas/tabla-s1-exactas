@@ -1,8 +1,0 @@
-         symbols       proba      info
-1   IP:broadcast 0.696686698 0.5214181
-2 IPv6:broadcast 0.148611337 2.7503839
-3    ARP:unicast 0.034148124 4.8720499
-4     IP:unicast 0.113691733 3.1368007
-5    LLC:unicast 0.005237941 7.5767846
-6  ARP:broadcast 0.001624168 9.2660838
-entropia:  1.349739	entropia maxima:  2.584963 
