@@ -24,3 +24,15 @@ grafico_barras.s1 <- function(info.src) {
         geom_hline(aes(yintercept = entropia_max(info.src), colour = "entropía\nmáxima")) +
         ggtitle("Información de cada símbolo")
 }
+
+
+grafico_linea.s2 <- function(info.src) {
+    info.src <- info.src[order(info.src$info),]
+    nodos = 1:nrow(info.src)
+    stopifnot("info.src" %in% class(info.src))
+    ggplot(data = info.src, aes(x=nodos, y=info)) +
+        geom_bar (stat = "identity") +
+        geom_hline(aes(yintercept = entropia(info.src), colour = "entropía")) +
+        geom_hline(aes(yintercept = entropia_max(info.src), colour = "entropía\nmáxima")) +
+        ggtitle("Información de cada símbolo")
+}

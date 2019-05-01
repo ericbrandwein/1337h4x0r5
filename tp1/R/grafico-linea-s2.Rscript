@@ -17,7 +17,7 @@ out_filename <- paste(
 
 png(out_filename)
 data <- fuente.s2a(filename)
-grafico_barras.s1(data)
+grafico_linea.s2(data)
 dev.off()
 
 cat ("output en ", out_filename, "\n")
