@@ -5,18 +5,18 @@ if (length(args) != 1) { stop("Pasar por parametro el path a los datos.")  }
 library(ggplot2)
 
 source("generics.R")
-source("fuente-s1.R")
+source("fuente-s2.R")
 source("graficos.R")
 
 filename <- args[1]
 
 out_filename <- paste(
-    "../img/s1",
+    "../img/s2",
     basename(tools::file_path_sans_ext(filename)),
     "barras.png", sep="-")
 
 png(out_filename)
-data <- fuente.s1(filename)
+data <- fuente.s2a(filename)
 grafico_barras.s1(data)
 dev.off()
 
