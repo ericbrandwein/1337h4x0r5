@@ -34,3 +34,22 @@ Por último, una propiedad que vamos a tener en cuenta en nuestro
 trabajo es que el valor máximo de la entropía (dada una fuente y
 variando las probabilidades) es $log |S|$; valor que
 alcanza cuando todos los símbolos son equiprobables.
+
+\subsection{Frames Ethernet y el protocolo ARP}
+
+Los paquetes de red (Ethernet) que capturamos, se componen principalmente de un campo conocido como EtherType
+
+\includegraphics[scale=0.6]{Ether.jpg}
+
+Esto no ayuda saber que tipo de protocolo esta encapsulado dentro del paquete. Por lo general dentro de los paquetes pueden existen distintos tipos protocolos. Lo que mas se quiere caracterizar en este, es aquellos que usan el protocolo ARP.
+
+\subsubsection(ARP)
+
+
+El protocolo ARP trabaja entre la capa de enlace y la capa red. Es el encargado de mapear las direcciones IP de la red, de modo que esten asociadas con las direcciones MAC de la red.
+Los paquetes que usa el protocolo ARP pueden ser de tipo broadcast o de tipo unicast. Las tipo Broadcast o Who-has es un request con destino ff:ff:ff:ff:ff:ff que pregunta que direccion ip tiene cierta direccion MAC. Las de tipo unicast son reply que responden con la direccion MAC a quien pregunto por cierta direccion IP.
+
+\includegraphics[scale=0.8]{arp.png}
+
+Toda este intercambio de paquetes ayuda a armar la tabla de direcciones MAC e IP que forman una red.
+   
