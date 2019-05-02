@@ -1,25 +1,73 @@
 %1. De haber diferentes tamaños de redes, ¿Aprecia alguna diferencia desde el punto de vista de las fuentes
 %de información analizadas?
-	En S1 pudimos observar diferencias en la cantidad de broadcast asi como en la cantidad de trafico ARP. Por ejemplo en redes mas grandes estas disminuyeron. Esto no hizo pensar que, al tener una red mas grande y tener poco trafico de control, se aprecia un incremento en la presencia de trafico goodput a medida que la red es mas grande. Algo que notamos fue la presencia del LLC en las distintas, el cual desconocemos su funcion, pero fue variando dependiendo de la red.
-	En S2 se pudo observar diferencias de porcentajes en el trafico de broadcast. Por ejemplo tomemos la red casa eric, se tuvo un mayor procentaje de broadcast comparandola con las otras 2, esta supera por el doble el porcentaje de broadcast.Esto hace llegar a la conclusion de que a medida que crece la cantidad de usuarios en la red, el trafico broadcast decrece de forma proporcionalmente baja.
+	En S1 pudimos observar diferencias en la cantidad de broadcast así
+    como en la cantidad de trafico ARP, entre las diferentes muestras
+    obtenidas. Por ejemplo en redes mas grandes tanto unas como otras
+    disminuyeron. Esto nos hizo pensar que, a medida que la red tiene
+    un tamaño más grande y disminuye el trafico de control, se aprecia
+    un incremento en la presencia de goodput.
+
+    
+    Algo que notamos fue la presencia del protocolo LLC en las redes
+    más grandes, es decir en la de la biblioteca y la del pabellón 1
+    de la facultad.
+
+    También notamos en las redes más grandes la presencia de nodos que
+    nos pareció que pertenecían a distintas subredes, dado que en cada
+    caso había dos conjuntos de números que compartían los bits más
+    significativos variando en los menos significativos. Además, al
+    realizar las gráficas de los grafos subyacentes a las mismas,
+    pudo observarse que parece haber nodos especialmente dedicados a
+    conectar las dos subredes.
+
+    En S2 se pudo observar diferencias de porcentajes en el trafico de
+    broadcast. Por ejemplo, en la red casa eric se tuvo un mayor
+    porcentaje de broadcast comparándola con las otras 2, esta supera
+    por el doble el porcentaje de broadcast.Esto hace llegar a la
+    conclusión de que a medida que crece la cantidad de usuarios en la
+    red, el trafico broadcast decrece de forma proporcionalmente baja.
 
 
 %2. ¿Ha notado alguna diferencia durante la captura de datos entre el acceso a la red mediante WiFi y el
 %acceso mediante cable? ¿A qué se lo atribuye?
-Debido a ciertos problemas no se pudo hacer un analisis concluyente entre la diferencia entre cableado y wifi.
+Debido a ciertos problemas no se pudo hacer un análisis concluyente entre la diferencia entre cableado y wifi.
 
 %3. ¿Considera que las muestras obtenidas analizadas son representativas del comportamiento general
 %de la red?
-Nuestra consideracion esperada en S2, era una mayor presencia de paquetes ARP que fuesen de tipo IS-AT, pero no hubo la proporcion esperada.
+Consideramos que es probable que las muestras obtenidas sean
+representativas del comportamiento general de una red, si bien
+consideramos que ciertos paquetes de control, necesarios para el buen
+funcionamiento, pueden no haber sido capturados, por haber ocurrido en
+una etapa anterior al inicio de la captura de los paquetes.
+
 
 %4. El modelo de fuente de memoria nula utilizado supone que las probabilidades de los símbolos son
 %independientes. ¿Es esto verdadero para ambas fuentes? ¿Por qué? ¿Qué consecuencia tiene esto en
 %los experimentos realizados?
 
-En S1, 
+Podemos decir que el modelo de memoria nula no es del todo adecuado a
+la situación modelada. En particular, muchos de los paquetes enviados
+son repuestas a paquetes recibidos, es decir, a paquetes que fueron
+enviados con anterioridad. Por otra parte, muchas veces los paquetes
+son enviados en ráfagas, lo que hace que dos paquetes pertenecientes a
+una de ellas no pueden considerarse como independientes.
 
-En S2, no consideramos que sean independientes. En las muestras analizadas vemos que los paquetes ARP con operaciones IS-AT viene posteriomente despues de cierto numero de paquetes ARP Who-Has, practicamente despues de cualquiera de ellas. De esta manera la frecuencias de paquetes IS-AT no es considerada independiente a las de Who-Has.
+Así, en el caso de S1, por ejemplo si ocurre una ráfaga de paquetes IP,
+esto implica que la probabilidad de ocurrencia no sea independiente entre
+ellos, ya que vendrán varios uno cercano al otro.
 
+En S2, por ejemplo, un paquete is-at es respuesta a un paquete
+who-has. Como nuestro modelo considera sólo los números de IP, este
+hecho se ve reflejado en el hecho de que un número IP que aparece como
+parte de una paquete is-at, es respuesta (y por ende no independiente)
+a un paquete who.has.
 
 %5. ¿Qué otra herramienta matemática distinta a la teoría de la información podría utilizar para detectar
 %elementos distinguidos en una muestra de datos?
+
+Otra herramienta matemática que puede ser de utilidad para analizar
+una red y en particular para identificar nodos distinguidos dentro de
+la misma es la teoría de grafos. En nuestro TP pudimos encontrar que
+en ocasiones los nodos distinguidos son aquellos que mayor grado tienen
+en el grado subyacente y también que conectan de tal modo el grafo que
+si se los saca el grafo deja de ser conexo.
