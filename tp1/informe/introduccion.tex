@@ -35,21 +35,35 @@ trabajo es que el valor máximo de la entropía (dada una fuente y
 variando las probabilidades) es $log |S|$; valor que
 alcanza cuando todos los símbolos son equiprobables.
 
-\subsection{Frames Ethernet y el protocolo ARP}
+\subsection{Frames Ethernet}
 
-Los paquetes de red (Ethernet) que capturamos, se componen principalmente de un campo conocido como EtherType
-
+\begin{center}
 \includegraphics[scale=0.6]{Ether.jpg}
+\end{center}
 
-Esto no ayuda saber que tipo de protocolo esta encapsulado dentro del paquete. Por lo general dentro de los paquetes pueden existen distintos tipos protocolos. Lo que mas se quiere caracterizar en este, es aquellos que usan el protocolo ARP.
+La imagen muestra los campos de un paquete de red Ethernet.
+Uno de ellos es el EtherType,
+que ayuda a saber qué tipo de protocolo está encapsulado dentro del paquete.
+En este informe analizaremos distintos protocolos, pero entre ellos
+nos enfocaremos con más detalle en el ARP.
 
-\subsubsection(ARP)
+\subsection{Protocolo ARP}
 
+El protocolo ARP trabaja entre la capa de enlace y la capa de red. 
+Es el encargado de mapear las direcciones IP de la red, de modo que estén asociadas con las direcciones MAC de los dispositivos de la red.
+Los paquetes que usa el protocolo ARP pueden ser de tipo \textit{WHO-HAS} o de
+tipo \textit{IS-AT}.
 
-El protocolo ARP trabaja entre la capa de enlace y la capa red. Es el encargado de mapear las direcciones IP de la red, de modo que esten asociadas con las direcciones MAC de la red.
-Los paquetes que usa el protocolo ARP pueden ser de tipo broadcast o de tipo unicast. Las tipo Broadcast o Who-has es un request con destino ff:ff:ff:ff:ff:ff que pregunta que direccion ip tiene cierta direccion MAC. Las de tipo unicast son reply que responden con la direccion MAC a quien pregunto por cierta direccion IP.
+Los de tipo WHO-HAS son paquetes con destino MAC FF:FF:FF:FF:FF:FF (broadcast)
+que se utilizan para pedir la dirección MAC del dispositivo con cierta
+dirección IP.
+Las de tipo IS-AT son respuestas de tipo unicast a paquetes WHO-HAS.
+Estos contienen la dirección MAC pedida y al origen
+del WHO-HAS que comenzó la comunicación como destino.
 
+\begin{center}
 \includegraphics[scale=0.8]{arp.png}
+\end{center}
 
-Toda este intercambio de paquetes ayuda a armar la tabla de direcciones MAC e IP que forman una red.
+Todo este intercambio de paquetes ayuda a armar la tabla de direcciones MAC e IP de los routers que forman parte de una red.
    
