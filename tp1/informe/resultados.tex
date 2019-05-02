@@ -12,8 +12,11 @@
 % preguntas):
 % 1. Para S1: ¿Considera significativa la cantidad de tráfico broadcast sobre el tráfico total? 
 
-Para cada muestra, generamos un gráfico mostrando la información de cada símbolo,
+Para cada muestra del modelo S1, generamos un gráfico mostrando la información de cada símbolo,
 la entropía de la muestra, y la entropía máxima.
+En las muestras del modelo S2 generamos imágenes de grafos, con
+los símbolos representados como nodos, y la comunicación entre
+dos dispositivos como aristas.
 
 \subsection{Casa de Eric}
 \subsubsection{S1}
@@ -24,8 +27,9 @@ mayor aparición.
 A continuación se presenta un gráfico que ayudará a analizar mejor
 la muestra:
 
-\includegraphics{s1/casa-eric-nuevo.png}
-
+\begin{center}
+\includegraphics[scale=0.5]{s1/s1-casa-eric-nuevo-barras.png}
+\end{center}
 
 % ¿Se han encontrado símbolos distinguidos? ¿Les otorga algún significado?
 % ¿La entropía de la fuente es máxima? ¿Bajo qué condiciones la entropía sería máxima? 
@@ -66,40 +70,52 @@ como la de los paquetes de unicast de ARP son muy bajas.
 % detectados por la herramienta? ¿Ha encontrado paquetes ARP no esperados? ¿Cuál es su función?
 \subsubsection{S2}
 
-Utilizando el modelo que toma cada ip (ya sea fuente o destino) como
-un símbolo distinto, vemos que el la red casa-eric tenemos un alfabeto
+Utilizando el modelo que toma cada IP (ya sea fuente o destino) como
+un símbolo distinto, vemos que en esta red tenemos un alfabeto
 compuesto de 255 símbolos: los IPs del 192.168.0.1 a 192.168.0.254 y
 la IP 0.0.0.0.
 
-La entropía en el muestreo realizado en esa red dió un valor de
-5.010991. Si comparamos la información de cada symbolo (estimando su
+La entropía en el muestreo realizado en esta red dio un valor de
+5,010991. Si comparamos la información de cada símbolo (estimando su
 probabilidad de ocurrencia con la frecuencia empírica obtenida en la
 muestra) con la entropía de la fuente calculada también con la
-muestra, obeservamos que existe un único nodo distinguido, a saber el
+muestra, observamos que existe un único nodo distinguido, a saber el
 nodo con el número 192.168.0.1, el cual tiene una frecuencia mucho
 mayor y por ende una cantidad de información menor: es el único
 símbolo que transmite una información menor a la entropía de la
-fuente. Este echo no es casual, ya que ese es el IP correspondiente al
-default gateway (de acuerdo al comando ip route corrido en la
-computadora donde se realizó el muestreo), y probablemnte sea por lo
-tanto el router de la red.
+fuente. Este hecho no es casual, ya que esa es la dirección IP correspondiente al
+default gateway (de acuerdo al comando IP route corrido en la
+computadora donde se realizó el muestreo), y probablemente sea, por lo
+tanto, el router de la red.
 
-En el grafo puede verse que este nodo tiene muchas aristas que lo
+En el grafo puede verse que el nodo correspondiente a este símbolo
+tiene muchas aristas que lo
 conectan con muchos de los otros nodos de la red, la gran mayoría de
-los cuales solo recibe un paquete del mismo.
+los cuales solamente recibe paquetes del mismo, y de nadie más.
 
+\begin{center}
 \includegraphics[scale=0.6]{../img/eric-lavarropas.png}
+\end{center}
 
 Al ver este grafo pensamos en considerar sólo aquellos nodos que son
-tanto fuente como destino de algún paque (es decir sin considerar
-aquellos paquetes que el router envía a nodos que no envían ningún
-paquete).
+tanto fuente como destino de algún paquete (es decir dejar
+de considerar aquellos paquetes que el router 
+envía a nodos que no envían ningún paquete).
 
+\begin{center}
 \includegraphics[scale=0.6]{../img/eric-flor.png}
+\end{center}
 
 En este grafo de menor tamaño puede verse el nodo 192.168.0.1 que
 intercambia paquetes con todos los otros nodos (la mayoría de los
 cuales sólo se comunican con él), y también el nodo 0.0.0.0.
+
+La aparición del nodo 0.0.0.0 en la red es extraña, ya que no
+puede pertenecer a un dispositivo. Investigando, descubrimos
+que se utiliza como origen del paquete ARP WHO-HAS para saber si
+ya existe un dispositivo con la dirección IP por la que se 
+está preguntando. Lo mismo seguirá ocurriendo en las próximas
+redes que analizaremos.
 
 \subsection{Biblioteca Casa de la Lectura}
 \subsubsection{S1}
@@ -114,7 +130,10 @@ usuarios de la biblioteca utilizan la red en conexiones largas, y por lo tanto l
 de control de red son opacados por los de comunicación de datos. A continuación se muestra un
 gráfico que nos ayudará a analizar mejor la muestra.
 
-% GRAFICULO
+\begin{center}
+\includegraphics[scale=0.5]{s1/s1-biblio-s1-barras.png}
+\end{center}
+
 
 %¿Cuál es la función de cada uno de los protocolos encontrados? 
 %¿Cuáles son de control y cuáles transportan datos de usuario? 
@@ -144,15 +163,27 @@ que es un protocolo de capa dos que permite multiplexar muchas fuentes de
 información en una sola. En el caso particular de la biblioteca no
 estamos seguros del uso que se les está dando.
 
-\subsubsection{S1}
+El porcentaje de paquetes para cada protocolo es de:
+\begin{itemize}
+	\item IP: 73.4\%
+	\item IPv6: 16.2\%
+	\item ARP: 10.4\%
+	\item LLC: 0.0\%
+\end{itemize}
 
-Utilizando el modelo S2 en esta muestra en la segunda red obtuvimos un
-alfabeto de 178 símbolos. Estos son, el IP 0.0.0.0, el 10.128.128.128,
-el 10.5.47.7, 98 que empiezan con 10.92, 74 con 100.64 y por último
-los IPs 169.254.193.173 y 169.254.216.44. Los IPs que empiezan con
-10.96 en realidad pertencen al rango 10.96.0.* a 10.96.15.*, con lo
-que puede que pertenezcan a la red 10.92.0.0/20. Las IPs que comienzan
-con 100.64 están en el rango de 100.64.0.* a 100.64.31.* por lo que
+El porcentaje de paquetes de LLC es prácticamente cero, que se condice con lo
+visto en el gráfico. Por otro lado, el porcentaje de paquetes IP supera con
+creces a todos los demás.
+
+\subsubsection{S2}
+
+Utilizando el modelo S2 en esta muestra obtuvimos un
+alfabeto de 178 símbolos. Estos son: la dirección IP 0.0.0.0, la 10.128.128.128,
+la 10.5.47.7, 98 que empiezan con 10.92, 74 con 100.64 y por último
+las 169.254.193.173 y 169.254.216.44. Las direcciones que empiezan con
+10.96 pertenecen al rango 10.96.0.* a 10.96.15.*, con lo
+que puede que pertenezcan a la red 10.92.0.0/20. Las direcciones que comienzan
+con 100.64 están en el rango de 100.64.0.* a 100.64.31.*, por lo que
 probablemente pertenezcan a la red 100.64.0.0/19.
 
 La entropía encontrada en esta fuente de información es de 3.569424,
@@ -160,50 +191,43 @@ lo que da lugar a que existen tres nodos distinguidos (considerando a
 aquellos cuya información es menor), a saber, los nodos
 10.128.128.128, 100.64.22.24 y 100.64.0.1.
 
-Dado que observando los números de IP supusimos que existían dos
+Dado que observando los números de direcciones supusimos que existían dos
 subredes, quisimos observar los vínculos entre los distintos nodos
 para ver el grafo subyacente. Es decir, graficamos el grafo que está
 compuesto por aquellas aristas que conectan dos nodos de distinta
 subred (además de que el grafo con todos los nodos y aristas obtenido
-era demasido grande par apoder mirar en un grafico), lo cual se ve a
+era demasiado grande para poder mirar en un gráfico), lo cual se ve a
 continuación:
 
+\begin{center}
 \includegraphics[scale=0.6]{../img/biblio-grafo-redesAB.png}
+\end{center}
 
-Puede verse en este grafo que los dos nodos distinuidos de mayor
+Puede verse en este grafo que los dos nodos distinguidos de mayor
 ocurrencia están presentes: el 10.128.128.128 y el 100.64.22.24, los
 cuales están conectados mediante dos aristas con orientaciones
 diferentes (o sea cada uno envió algún paquete al otro). Por otra
 parte, todos los demás nodos pertenecen a 100.64.0.0/19 y reciben
-paquetes de 10.128.128.128 (son paquetes who-has).
+paquetes de 10.128.128.128 (son paquetes WHO-HAS).
 
-Luego dibujamos otros dos grafos. El primero de ellos es el de la red
-biblio, pero sin los nodos pertenecientes a 10.128.
+Luego dibujamos otros dos grafos. El primero de ellos es el
+resultante de sacar los nodos pertenecientes a 10.128 de la
+red.
 
+\begin{center}
 \includegraphics[scale=0.6]{../img/biblio-grafo-red-100-64.png}
+\end{center}
 
 En el centro se ve el nodo distinguido 100.64.0.1, que suponemos puede
 ser un router dado que tiene aristas que los conectan con una gran
 cantidad de otros nodos de la red. 
 
-Por último, el grafo correpondiente a las aristas entre nodos no
+Por último, el grafo correspondiente a las aristas entre nodos no
 pertenecientes a 10.128.
 
+\begin{center}
 \includegraphics[scale=0.6]{../img/biblio-grafo-red-10-92.png}
-
-
-
-El porcentaje de paquetes para cada protocolo es de:
-\begin{itemize}
-\item IP: 73.4\%
-\item IPv6: 16.2\%
-\item ARP: 10.4\%
-\item LLC: 0.0\%
-\end{itemize}
-
-El porcentaje de paquetes de LLC es prácticamente cero, que se condice con lo
-visto en el gráfico. Por otro lado, el porcentaje de paquetes IP supera con
-creces a todos los demás.
+\end{center}
 
 
 \subsection{Red Pabellón 1}
@@ -218,7 +242,9 @@ más usuarios, mayor goodput.
 
 A continuación se muestra el gráfico de barras correspondiente a esta red.
 
-% GRAFICULIS
+\begin{center}
+\includegraphics[scale=0.5]{s1/s1-exactas-wifi-barras.png}
+\end{center}
 
 %¿Cuál es la función de cada uno de los protocolos encontrados? 
 %¿Cuáles son de control y cuáles transportan datos de usuario? 
@@ -259,27 +285,33 @@ de los demás protocolos se ve reflejada en el incremento por parte del protocol
 IP.
 
 \subsubsection{S2}
-En esta red encontramos 209 símbolos, la mayoría de los cuales son IPs
-que comienzan con 10.2.200 a 10.2.203, y también hay IPs que comienzan
-con 169.254. De manera similar a la red biblio, hicimos el grafo de
-los nodos con aristas que conectan ambas redes.
+En esta red encontramos 209 símbolos, la mayoría de los cuales son 
+direcciones IP
+que comienzan con 10.2.200 a 10.2.203, y también hay direcciones
+que comienzan con 169.254. De manera similar a la red de la biblioteca,
+hicimos el grafo de los nodos con aristas que conectan ambas redes.
 
+\begin{center}
 \includegraphics[scale=0.6]{../img/exactas-redesAB.png} 
+\end{center}
 
 Vemos de la red 169.254 que el nodo 169.254.119 recibe muchos
-paquetes. Cabe destacar que si bien la información de dicho IP resulta
-mayor al valor de entropía de la red (es decir que no es tan
+paquetes. Cabe destacar que si bien la información de dicha dirección
+resulta mayor al valor de entropía de la red (es decir que no es tan
 frecuente), es el de mayor frecuencia entre las direcciones 169.254.
 
-En el grafo en el cual le sacamos los nodos de 10.2, podemos ver que
-en su mayoría se trata de paquetes que van a 0.0.0.0.
+En el grafo en el cual sacamos los nodos de 10.2, podemos ver que
+en su mayoría se trata de paquetes con destino 0.0.0.0.
 
+\begin{center}
 \includegraphics[scale=0.5]{../img/exactas-sin10-2.png}
+\end{center}
 
-Por último, el grafo de la red pabellón 1 al que le sacamos los nodos
-cd 169.254 está compuesto de una gran cantidad de nodos, destacándose
-el lugar del nodo destacado 10.2.203.254, que es el de mayor
+Por último, el grafo de la red Pabellón 1 al que le sacamos los nodos
+169.254 está compuesto de una gran cantidad de nodos, destacándose
+la posición en el grafo del nodo 10.2.203.254, que es el de mayor
 frecuencia.
 
+\begin{center}
 \includegraphics{../img/exactas-sin169.png}
-
+\end{center}
