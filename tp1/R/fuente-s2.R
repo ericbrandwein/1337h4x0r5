@@ -37,18 +37,18 @@ fuente.s2a <- function(data.filename) {
 }
 
 
-fuente <- function(data.filename) {
-    data <- read_data.s2a (data.filename)
-    proba <- probabilidades(data)
-    symbols <- names(proba)
-    info <- probas_to_informaciones(proba)
-    info.src <- data.frame(symbols, proba, info, stringsAsFactors=FALSE)
-    ## info.src <- info.src[order(info.src$info),]
-    ## row.names(info.src) <- 1:nrow(info.src)
-    ## class(info.src) <- c(class(info.src), "info.src")
-    ## info.src
-    info
-}
+## fuente <- function(data.filename) {
+##     data <- read_data.s2a (data.filename)
+##     proba <- probabilidades(data)
+##     symbols <- names(proba)
+##     info <- probas_to_informaciones(proba)
+##     info.src <- data.frame(symbols, proba, info, stringsAsFactors=FALSE)
+##     ## info.src <- info.src[order(info.src$info),]
+##     ## row.names(info.src) <- 1:nrow(info.src)
+##     ## class(info.src) <- c(class(info.src), "info.src")
+##     ## info.src
+##     info
+## }
 
 
 punto2a <- function(data.filename) {
