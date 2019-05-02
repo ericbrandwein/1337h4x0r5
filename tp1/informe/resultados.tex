@@ -19,7 +19,9 @@ la entropía de la muestra, y la entropía máxima.
 \subsubsection{S1}
 El porcentaje de paquetes de broadcast sobre los totales en los datos tomados en la 
 casa de Eric es del 31,8\%. Esto quiere decir que estos paquetes no son los de 
-mayor aparición. A continuación se presenta un gráfico que ayudará a analizar mejor
+mayor aparición. 
+
+A continuación se presenta un gráfico que ayudará a analizar mejor
 la muestra:
 
 \includegraphics{s1/casa-eric-nuevo.png}
@@ -41,6 +43,18 @@ sean de este símbolo. Este es, definitivamente, un símbolo distinguido.
 
 Como los paquetes de IP:unicast transportan en su mayoría datos de usuario,
 que este símbolo sea distinguido indica que la red tiene buen goodput.
+
+
+El porcentaje de paquetes para cada protocolo es de:
+\begin{itemize}
+	\item IP: 40,4\%
+	\item IPv6: 27,7\%
+	\item ARP: 31,9\%
+\end{itemize}
+
+El porcentaje de ARP en particular es muy parecido al del total de paquetes de
+broadcast, lo que indica que tanto la cantidad de paquetes de broadcast de IP
+como la de los paquetes de unicast de ARP son muy bajas.
 
 % ¿Ha encontrado protocolos no esperados? ¿Puede describirlos?
 
@@ -95,6 +109,19 @@ información en una sola. En el caso particular de la biblioteca no
 estamos seguros del uso que se les está dando.
 
 
+El porcentaje de paquetes para cada protocolo es de:
+\begin{itemize}
+\item IP: 73.4\%
+\item IPv6: 16.2\%
+\item ARP: 10.4\%
+\item LLC: 0.0\%
+\end{itemize}
+
+El porcentaje de paquetes de LLC es prácticamente cero, que se condice con lo
+visto en el gráfico. Por otro lado, el porcentaje de paquetes IP supera con
+creces a todos los demás.
+
+
 \subsection{Red Pabellón 1}
 \subsubsection{S1}
 El porcentaje de tráfico de broadcast en esta red fue del 15,3\%. De nuevo, el
@@ -129,3 +156,20 @@ En este caso se están mandando paquetes LLC:broadcast, a diferencia del caso
 de la biblioteca, en el que se mandaban de LLC:unicast. Podemos inferir solamente
 que el protocolo LLC es una forma genérica de enviar paquetes que cada administrador
 de red puede adaptar a sus necesidades.
+
+
+El porcentaje de paquetes para cada protocolo es de:
+\begin{itemize}
+\item IP: 81.0\%
+\item IPv6: 14.9\%
+\item ARP: 3.6\%
+\item LLC: 0.5\%
+\end{itemize}
+
+En esta red parece haber más paquetes LLC que en el de la biblioteca, aunque la 
+cantidad sigue siendo ínfima. El porcentaje de paquetes ARP también disminuyó,
+que indica menos carga de red para paquetes de control. También el de paquetes
+de IPv6, lo que quizá indica que el porcentaje de computadoras más modernas
+es menor en la facultad que en la biblioteca. La disminución de la aparición
+de los demás protocolos se ve reflejada en el incremento por parte del protocolo
+IP.
