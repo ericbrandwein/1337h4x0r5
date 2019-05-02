@@ -16,6 +16,7 @@ Para cada muestra, generamos un gráfico mostrando la información de cada símb
 la entropía de la muestra, y la entropía máxima.
 
 \subsection{Casa de Eric}
+\subsubsection{S1}
 El porcentaje de paquetes de broadcast sobre los totales en los datos tomados en la 
 casa de Eric es del 31,8\%. Esto quiere decir que estos paquetes no son los de 
 mayor aparición. A continuación se presenta un gráfico que ayudará a analizar mejor
@@ -24,24 +25,24 @@ la muestra:
 \includegraphics{s1/casa-eric-nuevo.png}
 
 
-¿Cuál es la función de cada uno de los protocolos encontrados? 
-¿Cuáles son de control y cuáles transportan datos de usuario? 
-\textbf{ESTO NO LO SÉ, RESPONDANLO USTEDES.}
 % ¿Se han encontrado símbolos distinguidos? ¿Les otorga algún significado?
-
-% TODO
-
 % ¿La entropía de la fuente es máxima? ¿Bajo qué condiciones la entropía sería máxima? 
 Se puede ver que la entropía de la fuente es menor a la entropía máxima. Esto
 se debe a que no es uniforme la información de todos los símbolos: el símbolo
-IP:unicast contiene mucha más información que el IP:broadcast. En términos más
+IP:broadcast contiene mucha más información que el IP:unicast. En términos más
 palpables, esto quiere decir que es más predecible la red. Si uno tuviese que
 adivinar cuál será el próximo paquete recibido, decir que será de tipo
-IP:broadcast tendría muchas chances de ser correcto.
+IP:unicast tendría muchas chances de ser correcto.
 
+Además, el símbolo IP:unicast es el único que posee información menor a la
+entropía, haciéndolo mucho más común que los otros símbolos. De 45.143 paquetes
+muestreados, 18.207 tuvieron este símbolo, haciendo que el 40,3\% de los paquetes
+sean de este símbolo. Este es, definitivamente, un símbolo distinguido.
+
+Como los paquetes de IP:unicast transportan en su mayoría datos de usuario,
+que este símbolo sea distinguido indica que la red tiene buen goodput.
 
 % ¿Ha encontrado protocolos no esperados? ¿Puede describirlos?
-
 
 
 % 2. Para S2: ¿La entropía de la fuente es máxima? ¿Qué sugiere esto acerca de la red? ¿Bajo qué con-
@@ -51,6 +52,7 @@ IP:broadcast tendría muchas chances de ser correcto.
 % detectados por la herramienta? ¿Ha encontrado paquetes ARP no esperados? ¿Cuál es su función?
 
 \subsection{Biblioteca Casa de la Lectura}
+\subsubsection{S1}
 % 1. Para S1: Mostrar la cantidad de infomación de cada símbolo comparando con la entropía de la fuente
 % y la entropía máxima. Mostrar el porcentaje de tráfico broadcast sobre el tráfico total. Mostrar el
 % porcentaje de aparición de cada protocolo encontrado.
@@ -79,20 +81,22 @@ las MAC de sus dueños; y los de IP:broadcast. Estos se utilizan para control de
 
 % ¿Se han encontrado símbolos distinguidos? ¿Les otorga algún significado?
 
-% TODO
+De nuevo, el único símbolo distinguido es el IP:unicast, que es el único cuya
+información es menor a la entropía.
 
 % ¿La entropía de la fuente es máxima? ¿Bajo qué condiciones la entropía sería máxima?
 Podemos ver que la entropía en este caso tampoco es máxima, ya que hay mucha 
 diferencia entre el símbolo de mayor información y el de menor información.
 
 % ¿Ha encontrado protocolos no esperados? ¿Puede describirlos?
-Encontramos que algunos paquetes tenían protocolo LLC. Investigando, descubrimos
+Podemos ver que algunos paquetes tienen protocolo LLC. Investigando, descubrimos
 que es un protocolo de capa dos que permite multiplexar muchas fuentes de
 información en una sola. En el caso particular de la biblioteca no
 estamos seguros del uso que se les está dando.
 
 
 \subsection{Red Pabellón 1}
+\subsubsection{S1}
 El porcentaje de tráfico de broadcast en esta red fue del 15,3\%. De nuevo, el
 tráfico unicast lo supera ampliamente. Suponemos que ocurre lo mismo que en 
 la muestra anterior: al tener más usuarios de la red enviando datos en 
@@ -105,4 +109,23 @@ A continuación se muestra el gráfico de barras correspondiente a esta red.
 
 % GRAFICULIS
 
+%¿Cuál es la función de cada uno de los protocolos encontrados? 
+%¿Cuáles son de control y cuáles transportan datos de usuario? 
+Acá vemos más marcada la diferencia entre la información otorgada por el
+símbolo IP:unicast y los demás. Además de indicar un mayor goodput, 
+hace que la entropía baje en relación a la entropía máxima, ya que la
+red es más predecible bajo este modelo. También está representado el
+símbolo IPv6:unicast, lo que quiere decir que hay algunas comunicaciones
+que se realizan con este protocolo más moderno.
 
+% ¿Se han encontrado símbolos distinguidos? ¿Les otorga algún significado?
+
+Una vez más podemos ver que el único símbolo distinguido es el IP:unicast.
+% ¿La entropía de la fuente es máxima? ¿Bajo qué condiciones la entropía sería máxima?
+
+
+% ¿Ha encontrado protocolos no esperados? ¿Puede describirlos?
+En este caso se están mandando paquetes LLC:broadcast, a diferencia del caso
+de la biblioteca, en el que se mandaban de LLC:unicast. Podemos inferir solamente
+que el protocolo LLC es una forma genérica de enviar paquetes que cada administrador
+de red puede adaptar a sus necesidades.
