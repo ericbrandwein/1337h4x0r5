@@ -110,6 +110,13 @@ En este grafo de menor tamaño puede verse el nodo 192.168.0.1 que
 intercambia paquetes con todos los otros nodos (la mayoría de los
 cuales sólo se comunican con él), y también el nodo 0.0.0.0.
 
+La aparición del nodo 0.0.0.0 en la red es extraña, ya que no
+puede pertenecer a un dispositivo. Investigando, descubrimos
+que se utiliza como origen del paquete ARP WHO-HAS para saber si
+ya existe un dispositivo con la dirección IP por la que se 
+está preguntando. Lo mismo seguirá ocurriendo en las próximas
+redes que analizaremos.
+
 \subsection{Biblioteca Casa de la Lectura}
 \subsubsection{S1}
 % 1. Para S1: Mostrar la cantidad de infomación de cada símbolo comparando con la entropía de la fuente
