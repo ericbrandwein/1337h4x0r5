@@ -1,18 +1,24 @@
 %1. De haber diferentes tamaños de redes, ¿Aprecia alguna diferencia desde el punto de vista de las fuentes
 %de información analizadas?
+	En S1 pudimos observar diferencias en la cantidad de broadcast asi como en la cantidad de trafico ARP. Por ejemplo en redes mas grandes estas disminuyeron. Esto no hizo pensar que, al tener una red mas grande y tener poco trafico de control, se aprecia un incremento en la presencia de trafico goodput a medida que la red es mas grande. Algo que notamos fue la presencia del LLC en las distintas, el cual desconocemos su funcion, pero fue variando dependiendo de la red.
+	En S2 se pudo observar diferencias de porcentajes en el trafico de broadcast. Por ejemplo tomemos la red casa eric, se tuvo un mayor procentaje de broadcast comparandola con las otras 2, esta supera por el doble el porcentaje de broadcast.Esto hace llegar a la conclusion de que a medida que crece la cantidad de usuarios en la red, el trafico broadcast decrece de forma proporcionalmente baja.
 
 
 %2. ¿Ha notado alguna diferencia durante la captura de datos entre el acceso a la red mediante WiFi y el
 %acceso mediante cable? ¿A qué se lo atribuye?
-
+Debido a ciertos problemas no se pudo hacer un analisis concluyente entre la diferencia entre cableado y wifi.
 
 %3. ¿Considera que las muestras obtenidas analizadas son representativas del comportamiento general
 %de la red?
-
+Nuestra consideracion esperada en S2, era una mayor presencia de paquetes ARP que fuesen de tipo IS-AT, pero no hubo la proporcion esperada.
 
 %4. El modelo de fuente de memoria nula utilizado supone que las probabilidades de los símbolos son
 %independientes. ¿Es esto verdadero para ambas fuentes? ¿Por qué? ¿Qué consecuencia tiene esto en
 %los experimentos realizados?
+
+En S1, 
+
+En S2, no consideramos que sean independientes. En las muestras analizadas vemos que los paquetes ARP con operaciones IS-AT viene posteriomente despues de cierto numero de paquetes ARP Who-Has, practicamente despues de cualquiera de ellas. De esta manera la frecuencias de paquetes IS-AT no es considerada independiente a las de Who-Has.
 
 
 %5. ¿Qué otra herramienta matemática distinta a la teoría de la información podría utilizar para detectar
