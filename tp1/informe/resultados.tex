@@ -76,7 +76,9 @@ compuesto de 255 símbolos: los IPs del 192.168.0.1 a 192.168.0.254 y
 la IP 0.0.0.0.
 
 La entropía en el muestreo realizado en esta red dio un valor de
-5,010991. Si comparamos la información de cada símbolo (estimando su
+5,010991, contra la máxima posible de 7,994353. Esto ya indica
+que los símbolos no están uniformemente distribuidos.
+Si comparamos la información de cada símbolo (estimando su
 probabilidad de ocurrencia con la frecuencia empírica obtenida en la
 muestra) con la entropía de la fuente calculada también con la
 muestra, observamos que existe un único nodo distinguido, a saber el
@@ -187,7 +189,10 @@ con 100.64 están en el rango de 100.64.0.* a 100.64.31.*, por lo que
 probablemente pertenezcan a la red 100.64.0.0/19.
 
 La entropía encontrada en esta fuente de información es de 3.569424,
-lo que da lugar a que existen tres nodos distinguidos (considerando a
+contra la máxima posible de 7.475733. Vemos que la proporción del
+total de entropía disminuyó notoriamente en relación a la red de la 
+casa de Eric.
+La entropía calculada da lugar a que existen tres nodos distinguidos (considerando a
 aquellos cuya información es menor), a saber, los nodos
 10.128.128.128, 100.64.22.24 y 100.64.0.1.
 
@@ -290,6 +295,11 @@ direcciones IP
 que comienzan con 10.2.200 a 10.2.203, y también hay direcciones
 que comienzan con 169.254. De manera similar a la red de la biblioteca,
 hicimos el grafo de los nodos con aristas que conectan ambas redes.
+
+La entropía de esta red resulta ser de 4.889626, contra un máximo posible
+de 7.707359. La proporción de entropía creció con respecto a la red 
+de la biblioteca, pero aún así se mantuvo más baja que la de la casa
+de Eric.
 
 \begin{center}
 \includegraphics[scale=0.6]{../img/exactas-redesAB.png} 
