@@ -5,10 +5,10 @@ import sys
 
 
 def is_ICMP_echo_reply (answer):
-    return answer.res[0][1].type == 0
+    return len(answer.res) > 0 and answer.res[0][1].type == 0
 
 def get_ICMP_error_src (answer):
-    return answer.res[0][1].src
+    return len(answer.res) > 0 and answer.res[0][1].src
 
     
 def get_hops(ip_addr):
@@ -17,7 +17,7 @@ def get_hops(ip_addr):
     ttl = 1
     cota = 32
     for times in range(cota):
-        ans, unans = sr(IP(dst = ip_addr, ttl = ttl) / ICMP())
+        ans, unans = sr(IP(dst = ip_addr, ttl = ttl) / ICMP(), timeout=1)
 
         if is_ICMP_echo_reply (ans): break
         else:
