@@ -1,3 +1,5 @@
 La funcion sr de scapy devuelve un par de listas.
 
 La primera lista tiene pares (pkt send, res) y la segunda los no respondidos.
+
+compilar tabla-ips.py : python tabla-ips.py 'nombre archivo csv de la carpeta datos'
