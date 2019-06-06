@@ -1,4 +1,4 @@
-#' qt es la tabla de student
+#' qt es la table de student
 #'
 #' Por ejemplo, para el valor crítico de student
 #' con alfa = .05 (dos colas) y 20 grados de libertad:
@@ -12,7 +12,9 @@ tau <- function(n) {
 }
 
 thompson_tau <- function(data) {
+    data <- data[!is.na(data)]
     n <- length(data)
+    if (n <= 2) { return (mean(data)) }
     sample_mean <- mean(data)
     s <- sd(data)
 
@@ -31,3 +33,21 @@ thompson_tau <- function(data) {
         return (thompson_tau(data[- suspected$index]))
     }
 }
+
+mean.thompson_tau <- function(x) mean (thompson_tau(x))
+
+rtt_medios <- function(data, FUN = mean.thompson_tau) {
+    res <- aggregate(list(data$rtt, data$ttl), by=list(data$dst), FUN)
+    names(res)  <- c("dst", "mean.rtt","ttl")
+    res <- res[order(res$ttl),]
+    rownames(res) <- 1:nrow(res)
+    res <- res[c("dst", "ttl","mean.rtt")]
+    . <- c(0, res$mean.rtt[1:(nrow(res)-1)])
+    res$links <- res$mean.rtt - .
+    res
+}
+
+#' simple plot:
+#' data <- read.csv("mi tabla.csv")
+#' x <- rtt_medios(data)
+#' plot (x$links, type="l")
