@@ -1,14 +1,15 @@
 #!/bin/bash
 
 if [ 1 -eq $# ]; then
+    SRC_NAME=$1
 
     while read -a line; do
         IP_ADDR=${line[1]}
         UNIV_NAME=${line[0]}
 
-        traceroute -n $IP_ADDR > $USER-$UNIV_NAME.icmp &
-        traceroute -nT $IP_ADDR > $USER-$UNIV_NAME.tcp &
-        traceroute -nU $IP_ADDR > $USER-$UNIV_NAME.udp &
+        traceroute -n $IP_ADDR > $SRC_NAME-$UNIV_NAME.icmp &
+        traceroute -nT $IP_ADDR > $SRC_NAME-$UNIV_NAME.tcp &
+        traceroute -nU $IP_ADDR > $SRC_NAME-$UNIV_NAME.udp &
         
     done < ../universidades
 
