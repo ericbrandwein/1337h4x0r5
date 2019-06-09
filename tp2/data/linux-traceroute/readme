@@ -1,0 +1,9 @@
+Aca hay archivos con el outpur de tracerout (linux) para comparar.
+En la extension indicamos esi es ICMP, TCP o UDP.
+
+Ejemplo
+
+traceroute -n $IP_UNIVERSIDAD > $USER-$UNIVERSIDAD.icmp
+traceroute -Tn $IP_UNIVERSIDAD > $USER-$UNIVERSIDAD.tcp
+traceroute -Un $IP_UNIVERSIDAD > $USER-$UNIVERSIDAD.udp
+

@@ -1,3 +1,4 @@
+#+startup: nofold
 * hacer
 ** python 
 *** TODO Guardar puertos para reconocer ráfagas
@@ -7,3 +8,5 @@ Las áfagas se identifican con
 + proto
 + puerto src
 + purto dest
+
+*** TODO Generar tcp ademas de icmp
