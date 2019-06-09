@@ -10,3 +10,7 @@ Las áfagas se identifican con
 + purto dest
 
 *** TODO Generar tcp ademas de icmp
+
+** consultas
+
+*** Esta bien q solo lleguen los tcp?

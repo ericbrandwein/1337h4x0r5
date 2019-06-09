@@ -12,6 +12,7 @@ tau <- function(n) {
 }
 
 thompson_tau <- function(data) {
+    stopifnot(is.vector(data))
     data <- data[!is.na(data)]
     n <- length(data)
     if (n <= 2) { return (mean(data)) }
