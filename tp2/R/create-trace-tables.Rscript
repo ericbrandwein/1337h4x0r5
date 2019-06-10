@@ -1,0 +1,6 @@
+## -*- mode:r -*-
+
+source("outliers.R")
+
+tables <- list.files("../data/scapy-traceroute", pattern="csv$", full.names=TRUE)
+sapply(tables, create_table)

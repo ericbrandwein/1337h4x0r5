@@ -1,5 +1,15 @@
+* traceroute.py
+
 La funcion sr de scapy devuelve un par de listas.
 
 La primera lista tiene pares (pkt send, res) y la segunda los no respondidos.
 
 compilar tabla-ips.py : python tabla-ips.py 'nombre archivo csv de la carpeta datos'
+
+* table-ips.py
+
+Instalar primero
+$ pip install python-geoip
+$ pip install python-geoip-geolite2
+
+Pasarle un archiivo generado por traceroute.py
