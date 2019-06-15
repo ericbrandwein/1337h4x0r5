@@ -8,15 +8,24 @@ import csv
 import argparse
 
 
-
 def is_ICMP_echo_reply (answer):
-    return len(answer.res) > 0 and answer.res[0][1].type == 0
+    try:
+        return answer.res[0][1].type == 0
+    except:
+        return False
 
 def get_IP_src (answer):
-    return 'NA' if len(answer.res) == 0 else answer.res[0][1].src
+    try:
+        return answer.res[0][1].src
+    except:
+        return 'NA'
 
 def get_time_received(answer):
-    return 0 if len(answer.res) == 0 else answer.res[0][1].time
+    try:
+        return answer.res[0][1].time
+    except:
+        return 0
+
 
 def final_hop_reached(answer, ip_dest):
     return is_ICMP_echo_reply(answer) and get_IP_src(answer) == ip_dest
@@ -30,11 +39,11 @@ def write_hops(ip_addr, csv_writer, proto, times):
 
     for ttl in range(1, cota): # and not reached_final_hop:
         for packets_sent in range(times):
-            start = time.time()
 
             sent_package = IP(dst = ip_addr, ttl = ttl) / proto()
+
+            start = time.time()
             ans, unans = sr(sent_package, timeout=1)
-            
             end = time.time()
 
             if unans:
@@ -62,7 +71,12 @@ def main(ip_addr, csv_file, proto, times):
             writer.writerow(['dst', 'rtt', 'ttl'])
             write_hops(ip_addr, writer, proto, times)
             
-
+        print("traceroute.py finished")
+        print("\t ip: {}".format(ip_addr))
+        proto_str = str(proto)[-1]
+        print("\t protocolo: {}".format(proto_str.strip("\"'>")))
+        print("\t times: {}".format(times))
+        print("\t outfile: {}".format(csv_file))
 
             
 if __name__ == "__main__":
