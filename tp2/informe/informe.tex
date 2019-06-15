@@ -1,0 +1,30 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+% especifico márgenes manualmente
+\usepackage[paper=a4paper, margin=2cm]{geometry}
+% separación silábica en castellano
+\usepackage[spanish]{babel}
+\usepackage{caratula/caratula}
+\usepackage{blindtext}
+\usepackage{graphicx}
+\graphicspath{ {./graficos/} }
+
+\begin{document}
+	
+	\input{caratula.tex}
+	\maketitle
+	
+	\section{Introducción}
+	\input{introduccion}	
+	
+	\section{Métodos y Condiciones de los Experimentos}
+	\input{metodos}
+
+	\section{Resultados}
+	\input{resultados}
+	
+	\section{Conclusiones}
+	\input{conclusiones}
+	
+
+\end{document}
