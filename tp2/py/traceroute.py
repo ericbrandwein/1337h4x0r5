@@ -9,7 +9,7 @@ import csv
 def is_ICMP_echo_reply (answer):
     return len(answer.res) > 0 and answer.res[0][1].type == 0
 
-def get_ICMP_error_src (answer):
+def get_IP_src (answer):
     return 'NA' if len(answer.res) == 0 else answer.res[0][1].src
 
     
@@ -23,15 +23,13 @@ def write_hops(ip_addr, csv_writer):
             ans, unans = sr(IP(dst = ip_addr, ttl = ttl) / ICMP(), timeout=1)
             
             end = time.time()
-            if is_ICMP_echo_reply(ans):
-                break
 
             if unans:
                 elapsed_time = 'NA'
             else:
                 elapsed_time = end - start
 
-            csv_writer.writerow([get_ICMP_error_src(ans), elapsed_time, ttl])
+            csv_writer.writerow([get_IP_src(ans), elapsed_time, ttl])
 
 
     print("----------------------------------------------------------------------------------------")
