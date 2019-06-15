@@ -37,7 +37,7 @@ thompson_tau <- function(data) {
 
 mean.thompson_tau <- function(x) mean (thompson_tau(x))
 
-rtt_medios <- function(data, FUN = mean.thompson_tau) {
+rtt_medios <- function(data, FUN = mean) {
     res <- aggregate(list(data$rtt, data$ttl), by=list(data$dst), FUN)
     names(res)  <- c("dst", "mean.rtt","ttl")
     res <- res[order(res$ttl),]
