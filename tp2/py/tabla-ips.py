@@ -19,13 +19,9 @@ for row in tabla:
 file_csv.close()
 
 
-print "Host","(Lat, Long)", "Timezone", "Pais", "Continente"
+print "Host, Lat, Long, Timezone, Pais, Continente"
 
 for ip in listaIPs:
 	match = geolite2.lookup(ip)
 	if match is not None:
-		print ip, match.location, match.timezone, match.country, match.continent
-
-
-
-
+		print ip,"," ,match.location[0],",",match.location[1],",", match.timezone,",", match.country,",", match.continent

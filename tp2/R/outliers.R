@@ -12,6 +12,7 @@ tau <- function(n) {
 }
 
 thompson_tau <- function(data) {
+    stopifnot(is.vector(data))
     data <- data[!is.na(data)]
     n <- length(data)
     if (n <= 2) { return (mean(data)) }
@@ -51,3 +52,11 @@ rtt_medios <- function(data, FUN = mean.thompson_tau) {
 #' data <- read.csv("mi tabla.csv")
 #' x <- rtt_medios(data)
 #' plot (x$links, type="l")
+
+create_table <- function(filename) {
+    data <- read.csv(filename)
+    out <- rtt_medios(data)
+    out.filename <- paste(tools::file_path_sans_ext(filename), "trace-table", sep=".")
+    write.table(out, file=out.filename)
+    cat(out.filename, " created")
+}
