@@ -15,7 +15,7 @@ thompson_tau <- function(data) {
     stopifnot(is.vector(data))
     data <- data[!is.na(data)]
     n <- length(data)
-    if (n <= 2) { return (mean(data)) }
+    if (n <= 2) { return (data) }
     sample_mean <- mean(data)
     s <- sd(data)
 
@@ -34,8 +34,6 @@ thompson_tau <- function(data) {
         return (thompson_tau(data[- suspected$index]))
     }
 }
-
-mean.thompson_tau <- function(x) mean (thompson_tau(x))
 
 rtt_medios <- function(data, FUN = mean) {
     res <- aggregate(list(data$rtt, data$ttl), by=list(data$dst), FUN)
@@ -59,4 +57,41 @@ create_table <- function(filename) {
     out.filename <- paste(tools::file_path_sans_ext(filename), "trace-table", sep=".")
     write.table(out, file=out.filename)
     cat(out.filename, " created")
+}
+
+split_outliers <- function(data) {
+    stopifnot(is.vector(data))
+    zeros <- data < 0
+    data[zeros] <- 0
+    res <- split_outliers_impl (data)
+    names(res) <- c("data", "outliers")
+    res
+}
+
+
+split_outliers_impl <- function(vec, outliers=c()) {
+    data <- vec
+    if (length(outliers) > 0) {
+        data <- vec[vec < min(outliers)]
+    }
+    
+    n <- length(data)
+    if (n <= 2) { return (list(vec, outliers)) }
+
+    argmin <- which.min(data)
+    argmax <- which.max(data)
+
+    x <- data.frame(
+        index=c(argmin, argmax),
+        value=c(data[argmin], data[argmax]),
+        dist=abs(c(data[argmin], data[argmax]) - mean(data)),
+        row.names=c("min","max"))
+
+    suspected <- x[which.max(x$dist),]
+    if (suspected$dist < sd(data) * tau(n)) {
+        return (list(vec, outliers))
+    } else {
+        return (split_outliers_impl(vec,
+                                    c(outliers,suspected$value)))
+    }
 }
