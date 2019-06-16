@@ -28,7 +28,7 @@ def get_time_received(answer):
 
 
 def final_hop_reached(answer, ip_dest):
-    return is_ICMP_echo_reply(answer) and get_IP_src(answer) == ip_dest
+    return get_IP_src(answer) == ip_dest
 
 def write_hops(ip_addr, csv_writer, proto, times):
     

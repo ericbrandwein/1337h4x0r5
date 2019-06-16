@@ -11,28 +11,23 @@ tau <- function(n) {
     (student * (n-1)) / (sqrt(n) * sqrt(n-2+student*student))
 }
 
-thompson_tau <- function(data) {
-    stopifnot(is.vector(data))
-    data <- data[!is.na(data)]
-    n <- length(data)
-    if (n <= 2) { return (data) }
-    sample_mean <- mean(data)
-    s <- sd(data)
+remove_lost_traces <- function(data) {
 
-    argmin <- which.min(data)
-    argmax <- which.max(data)
-    x <- data.frame(
-        index=c(argmin, argmax),
-        value=c(data[argmin], data[argmax]),
-        dist=abs(c(data[argmin], data[argmax]) - sample_mean),
-        row.names=c("min","max"))
-    suspected <- x[which.max(x$dist),]
-
-    if (suspected$dist < s * tau(n)) {
-        return (data)
-    } else {
-        return (thompson_tau(data[- suspected$index]))
+    for (ip in data$dst) {
+        min_ttl <- min(data[data$dst == ip,]$ttl)
+        max_ttl <- max(data[data$dst == ip,]$ttl)
+        if (min_ttl == max_ttl) { next }
+        excluded <- (data$dst == ip) & (data$ttl > min_ttl)
+        data <- data[!excluded,]
     }
+    data
+}
+
+read_trace_data <- function(filename) {
+    x <- read.csv(filename)
+    x <- x[complete.cases(x),]
+    remove_lost_traces(x)
+    
 }
 
 rtt_medios <- function(data, FUN = mean) {
@@ -43,16 +38,23 @@ rtt_medios <- function(data, FUN = mean) {
     res <- res[c("dst", "ttl","mean.rtt")]
     . <- c(0, res$mean.rtt[1:(nrow(res)-1)])
     res$links <- res$mean.rtt - .
+    outs <- split_outliers(res$links)
+    
+    tmp <- res$links
+    tmp[tmp < 0] <- 0
+    res$deltas <- tmp
+    res$outlier <- res$links %in% outs$outliers
     res
 }
+
 
 #' simple plot:
 #' data <- read.csv("mi tabla.csv")
 #' x <- rtt_medios(data)
-#' plot (x$links, type="l")
+#' plot (x$deltas, type="l")
 
 create_table <- function(filename) {
-    data <- read.csv(filename)
+    data <- read_trace_data(filename)
     out <- rtt_medios(data)
     out.filename <- paste(tools::file_path_sans_ext(filename), "trace-table", sep=".")
     write.table(out, file=out.filename)
@@ -70,13 +72,9 @@ split_outliers <- function(data) {
 
 
 split_outliers_impl <- function(vec, outliers=c()) {
-    data <- vec
-    if (length(outliers) > 0) {
-        data <- vec[vec < min(outliers)]
-    }
-    
+    data <- vec[which(0 < vec)]
     n <- length(data)
-    if (n <= 2) { return (list(vec, outliers)) }
+    if (n <= 2) { return (list(data, outliers)) }
 
     argmin <- which.min(data)
     argmax <- which.max(data)
@@ -89,9 +87,13 @@ split_outliers_impl <- function(vec, outliers=c()) {
 
     suspected <- x[which.max(x$dist),]
     if (suspected$dist < sd(data) * tau(n)) {
-        return (list(vec, outliers))
+        return (list(data, outliers))
     } else {
-        return (split_outliers_impl(vec,
+        return (split_outliers_impl(data[-suspected$index],
                                     c(outliers,suspected$value)))
     }
+}
+
+count_outliers <- function(data) {
+    sum(data$outlier)
 }

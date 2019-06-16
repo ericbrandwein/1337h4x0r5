@@ -1,18 +1,23 @@
+#!/usr/bin/python
+
 import csv
 from geoip import geolite2
 import sys
 
 #python tabla-ips.py "nombrearchivo csv de datos"
+filename = sys.argv[1]
+print "opening {}...".format(filename)
 
-file_csv = open(sys.argv[1],"r")
+file_csv = open(filename,"r")
 tabla = csv.reader(file_csv)
 
 listaIPs = []
 
 for row in tabla:
-	if row[0] != "dst" and row[0] != "NA":
-		if row[0] not in listaIPs:
-			listaIPs.append(row[0])
+        print row
+	if row[1] != "dst" and row[1] != "NA":
+		if row[1] not in listaIPs:
+			listaIPs.append(row[1])
 
 
 
