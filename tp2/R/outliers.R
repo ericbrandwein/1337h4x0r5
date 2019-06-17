@@ -1,3 +1,4 @@
+source("locate-ip.R")
 #' qt es la table de student
 #'
 #' Por ejemplo, para el valor crítico de student
@@ -30,21 +31,70 @@ read_trace_data <- function(filename) {
     
 }
 
-rtt_medios <- function(data, FUN = mean) {
+rtt_medios <- function(data, ips_table = NULL,
+                       first_hop = 1,
+                       FUN = mean) {
+    
+    stopifnot(!is.null(ips_table))
+    
     res <- aggregate(list(data$rtt, data$ttl), by=list(data$dst), FUN)
     names(res)  <- c("dst", "mean.rtt","ttl")
     res <- res[order(res$ttl),]
     rownames(res) <- 1:nrow(res)
     res <- res[c("dst", "ttl","mean.rtt")]
+
+    res <- merge(res, ips_table,
+                 by.x="dst", by.y="Host",
+                 all.x = TRUE)
+
+    res <- res[order(res$ttl),]
+    if (first_hop > 1) {
+        res <- res[first_hop:nrow(res), ]
+        res$mean.rtt <- res$mean.rtt - res$mean.rtt[first_hop]
+    }
+
     . <- c(0, res$mean.rtt[1:(nrow(res)-1)])
-    res$links <- res$mean.rtt - .
-    outs <- split_outliers(res$links)
+    res$deltas <- res$mean.rtt - .
+    res$deltas[res$deltas < 0] <- 0
+
+    outs <- split_outliers(res$deltas)
+    res$outlier <- res$deltas %in% outs$outliers
+    class(res) <- c("rtt_medios", class(res))
+
+    res[order(res$ttl),]
+}
+
+rtt_medios2 <- function(data, ips_database = NULL,
+                        first_hop = 1,
+                        FUN = mean) {
     
-    tmp <- res$links
-    tmp[tmp < 0] <- 0
-    res$deltas <- tmp
-    res$outlier <- res$links %in% outs$outliers
-    res
+    stopifnot(!is.null(ips_database))
+    
+    res <- aggregate(list(data$rtt, data$ttl), by=list(data$dst), FUN)
+    names(res)  <- c("dst", "mean.rtt","ttl")
+    res <- res[order(res$ttl),]
+    rownames(res) <- 1:nrow(res)
+    res <- res[c("dst", "ttl","mean.rtt")]
+
+    country <- get_ip_table(as.character(res$dst), ips_database)
+    ## country <- country$dst
+    ## res <- merge(res, country, by="dst", all.x = TRUE)
+
+    res <- res[order(res$ttl),]
+    if (first_hop > 1) {
+        res <- res[first_hop:nrow(res), ]
+        res$mean.rtt <- res$mean.rtt - res$mean.rtt[first_hop]
+    }
+
+    . <- c(0, res$mean.rtt[1:(nrow(res)-1)])
+    res$deltas <- res$mean.rtt - .
+    res$deltas[res$deltas < 0] <- 0
+
+    outs <- split_outliers(res$deltas)
+    res$outlier <- res$deltas %in% outs$outliers
+    class(res) <- c("rtt_medios", class(res))
+
+    res[order(res$ttl),]
 }
 
 
