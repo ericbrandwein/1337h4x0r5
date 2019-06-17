@@ -20,6 +20,23 @@ find_ip <- function(ip_num, ip_database) {
     ip_database[row, ]
 }
 
+
+find_ip_index <- function(ip_num, ip_database) {
+    stopifnot(is.numeric(ip_num))
+    row <- ip_database$ip.from < ip_num & ip_num < ip_database$ip.to
+    row <- which(row)
+    if (length(row) == 0) {
+        row <- 0
+    } else if (length(row) > 1) {
+        for (x in row) {
+            cat("matched: ", x, " ")
+        }
+        cat("\n")
+        row <- row[1]
+    }
+    row
+}
+
 get_ip_table <- function(ips_strings,  ip_database) {
     #ips <- sapply(ips_strings, ip_to_num)
     res <- data.frame()
@@ -48,6 +65,9 @@ network_to_range <- function(networks) {
     ipfrom <- unlist(lapply(qss, foo))
 
     ipto <- unlist(lapply(net_mask, function(x) as.integer(x[[2]])))
-    ipto <- ipto + ipfrom
-    cbind(ip.from=unlist(ipfrom), ip.to=ipto)
+    ipto <- 2 ^ (32 - ipto)
+    ipto <- ipfrom + ipto
+    as.data.frame(cbind(ip.from=unlist(ipfrom), ip.to=ipto))
 }
+
+
