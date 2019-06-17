@@ -1,0 +1,24 @@
+source("create-trace-tables.R")
+
+args <- commandArgs(trailingOnly = TRUE)
+
+plot_table <- function(filetable,file)
+{   
+    st <- substring(file,1,nchar(file)-4) 		
+    png(filename=paste("../RTT/",st,".png",sep=""),height=400, width=400)
+    
+    tabla <- get_table(filetable)
+    plot(tabla$mean.rtt, ylab="RTT")
+    abline(h=mean(tabla$mean.rtt),col="red")	    
+
+    dev.off()	
+}
+
+
+files <- list.files(args[1], pattern="csv$", full.names=TRUE)
+names <- list.files(args[1], pattern="csv$")
+
+for(i in 1:length(files))
+{
+    plot_table(files[i],names[i])
+}
