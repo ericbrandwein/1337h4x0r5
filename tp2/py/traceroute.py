@@ -37,7 +37,7 @@ def write_hops(ip_addr, csv_writer, proto, times):
     cota = 32
     reached_final_hop = False
 
-    for ttl in range(1, cota): # and not reached_final_hop:
+    for ttl in range(1, cota) and not reached_final_hop:
         for packets_sent in range(times):
 
             sent_package = IP(dst = ip_addr, ttl = ttl) / proto()
@@ -54,7 +54,6 @@ def write_hops(ip_addr, csv_writer, proto, times):
             csv_writer.writerow([get_IP_src(ans), elapsed_time, ttl])
 
             reached_final_hop = final_hop_reached(ans, ip_addr)
-        if reached_final_hop: break
 
     print("----------------------------------------------------------------------------------------")
     return hops

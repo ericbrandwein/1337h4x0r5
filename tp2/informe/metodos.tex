@@ -1,0 +1,33 @@
+\subsection{Herramienta de traceroute en Python}
+Para implementar la herramienta símil Traceroute utilizamos la
+librería Scapy de Python, que permite, entre otras cosas,
+enviar y recibir paquetes ICMP, TCP y UDP a una dirección IP,
+o a una URL, la cual es convertida a dirección IP por medio de 
+DNS. Llamamos a la herramienta desarrollada traceroute.py.
+
+Este programa tiene como argumento la IP o URL destino de la ruta
+a trazar, y envía paquetes incrementando de a uno el TTL. El TTL
+se decrementa en uno por cada router por el que pasa el paquete, y cuando
+llega a tener TTL igual a 0, el router que lo recibió envía un mensaje de
+error al emisor del paquete. Así, podemos saber las direcciones IP de (casi)
+todos los routers de un camino posible a la IP destino. Además, podemos saber
+cuánto se tardó entre el envío de un paquete y la respuesta del router, que 
+corresponde al RTT. Restando el RTT de un paquete del RTT del paquete con TTL
+incrementado en uno podemos estimar el RTT entre un router y el siguiente
+en la ruta.
+
+Puede ocurrir que la IP destino no responda al paquete enviado, o que la IP
+sea inalcanzable. Para salvarnos de estos casos, la herramienta incrementa
+el TTL hasta 32, y si no logra alcanzar el destino hasta ese momento corta la
+ejecución.
+
+Para lidiar con variaciones en los RTT de las rutas y de los routers de cada hop
+de cada paquete de TTL distinto,
+se envían una cantidad configurable de paquetes por cada TTL, con valor por
+defecto 32. Los valores de los RTT de estos paquetes serán luego procesados con
+scripts en R para obtener un RTT entre routers aproximados.
+
+El programa escribe la IP destino, el RTT y el TTL de cada paquete que envía
+a un archivo CSV. Si el destino no es sabido debido a que el router que envió
+el mensaje de \emph{Time Exceeded} no incluyó su IP, se imprime "NA" en su 
+lugar. 
