@@ -47,11 +47,6 @@ rtt_medios <- function(data, ips_table = NULL,
                  by.x="dst", by.y="Host",
                  all.x = TRUE)
 
-    res <- res[order(res$ttl),]
-    if (first_hop > 1) {
-        res <- res[first_hop:nrow(res), ]
-        res$mean.rtt <- res$mean.rtt - res$mean.rtt[first_hop]
-    }
 
     . <- c(0, res$mean.rtt[1:(nrow(res)-1)])
     res$deltas <- res$mean.rtt - .
@@ -61,7 +56,12 @@ rtt_medios <- function(data, ips_table = NULL,
     res$outlier <- res$deltas %in% outs$outliers
     class(res) <- c("rtt_medios", class(res))
 
-    res[order(res$ttl),]
+    res <- res[order(res$ttl),]
+    if (first_hop > 1) {
+        res <- res[first_hop:nrow(res), ]
+    }
+    res
+
 }
 
 rtt_medios2 <- function(data, ips_database = NULL,
