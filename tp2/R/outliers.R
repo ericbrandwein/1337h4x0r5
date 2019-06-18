@@ -31,6 +31,11 @@ read_trace_data <- function(filename) {
     
 }
 
+mean_rtt_to_delta <- function(data) {
+    . <- c(0, data$mean.rtt[1:(nrow(data) - 1)])
+    data$mean.rtt - .
+}
+
 rtt_medios <- function(data, ips_table = NULL,
                        first_hop = 1,
                        FUN = mean) {
@@ -46,20 +51,21 @@ rtt_medios <- function(data, ips_table = NULL,
     res <- merge(res, ips_table,
                  by.x="dst", by.y="Host",
                  all.x = TRUE)
-
-
-    . <- c(0, res$mean.rtt[1:(nrow(res)-1)])
-    res$deltas <- res$mean.rtt - .
+    res <- res[order(res$ttl),]
+    res$deltas <- mean_rtt_to_delta(res)
+    ## . <- c(0, res$mean.rtt[1:(nrow(res)-1)])
+    ## res$deltas <- res$mean.rtt - .
     res$deltas[res$deltas < 0] <- 0
-
+ 
+    if (first_hop > 1) {
+        res <- res[first_hop:nrow(res), ]
+    }
+ 
     outs <- split_outliers(res$deltas)
     res$outlier <- res$deltas %in% outs$outliers
     class(res) <- c("rtt_medios", class(res))
 
-    res <- res[order(res$ttl),]
-    if (first_hop > 1) {
-        res <- res[first_hop:nrow(res), ]
-    }
+    row.names(res) <- 1:nrow(res)
     res
 
 }

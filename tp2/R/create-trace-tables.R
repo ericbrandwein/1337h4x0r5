@@ -16,7 +16,7 @@ get_table <-  function(filename, ips_table = NULL, first_hop = 1) {
 get_trace_tables <- function(data_dirname, first_hop = 1) {
     stopifnot(!is.null(data_dirname))
     dirname <- normalizePath(data_dirname)
-    tables_dirname <- file.path(dirname, "scapy-traceroute/muestra3")
+    tables_dirname <- file.path(dirname, "scapy-traceroute/muestra")
     ips_table <- get_ips_table(file.path(dirname, "ip-location.csv"))
 
     trace_tables_fnames <- list.files(tables_dirname, pattern="csv$",

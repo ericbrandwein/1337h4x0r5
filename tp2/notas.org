@@ -1,0 +1,25 @@
+#+startup:nofold
+* notas
+** muestra 3 (TCP)
+*** kyoto
++ falta el hop entre 185.70.203.48 y 149.3.181.65. Ambos pertencen a
+  Roma. Dado que el RTT de 185.70.203.48 es 0, podría tratarse de un
+  MPLS en el cual el paquete se encapsule y por lo tanto se pierda el
+  erro time-exceeded. [Pregunta: pueden pertenecer a un MPLS siendo de
+  dis distintas subredes?]. Cuando enviamos paquetes ICMP si responde
+  ese hop (195.22.219.17).
+  
++ No tiene outliers, pero el máximo corresponde a 2 hops continguos
+  Roma-Denver (149.3.181.65 y 129.250.2.12), el cual es un enlace
+  intercontinental. (Esto pasa también con los ICMP)
+
++ Falta otro hop entre 129.250.2.12 y 129.250.6.30. Podría tratarse de
+  un MPLS o de un firewall. (en ICMP si responde: 129.250.4.13)
+
++ Faltan muchos hops entre 150.99.90.56 y 133.3.250.141, anbos en
+  Tokyo (si bien el último hop se reporta en Tokio, el destino es la
+  universidad de kyoto, por lo que podría ser que la información de la
+  base de datos de ips sea incorrecta). Esto podria ser por falta de
+  respuesta como por MPLS. (Esto también pasa com ICMP).
+
+

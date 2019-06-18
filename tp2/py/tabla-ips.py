@@ -6,7 +6,6 @@ import sys
 
 #python tabla-ips.py "nombrearchivo csv de datos"
 filename = sys.argv[1]
-print "opening {}...".format(filename)
 
 file_csv = open(filename,"r")
 tabla = csv.reader(file_csv)
@@ -14,7 +13,6 @@ tabla = csv.reader(file_csv)
 listaIPs = []
 
 for row in tabla:
-        print row
 	if row[1] != "dst" and row[1] != "NA":
 		if row[1] not in listaIPs:
 			listaIPs.append(row[1])
