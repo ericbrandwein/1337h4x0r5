@@ -6,11 +6,13 @@ plot_table <- function(filetable,file)
 {   
     st <- substring(file,1,nchar(file)-4) 		
     png(filename=paste("../RTT/",st,".png",sep=""),height=400, width=400)
-    
-    tabla <- get_table(filetable)
-    plot(tabla$mean.rtt, ylab="RTT")
-    abline(h=mean(tabla$mean.rtt),col="red")	    
+ 
+    ips_table <- get_ips_table(file.path("../data/ip-location.csv"));		    
+    tabla <- get_table(filetable, ips_table)
 
+    plot(tabla$ttl,tabla$mean.rtt, xlab="ttl", ylab="RTT", type="l", col="blue")
+    abline(h=mean(tabla$mean.rtt),col="red")	    
+    legend("topleft",c("RTT","media"),fill=c("blue","red"))
     dev.off()	
 }
 
