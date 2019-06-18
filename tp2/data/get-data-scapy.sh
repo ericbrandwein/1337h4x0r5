@@ -11,7 +11,7 @@ if [ 1 -eq $# ]; then
         
         echo route from $SRC_NAME to  $IP_ADDR $UNIV_NAME
         echo outfile: $OUTFILE
-        sudo ../py/traceroute.py -U $IP_ADDR $OUTFILE
+        sudo ../py/traceroute.py $IP_ADDR $OUTFILE
         
     done < universidades
 
