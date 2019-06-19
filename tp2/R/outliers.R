@@ -14,7 +14,7 @@ tau <- function(n) {
 
 remove_lost_traces <- function(data) {
 
-    for (ip in data$dst) {
+    for (ip in levels(data$dst9)) {
         min_ttl <- min(data[data$dst == ip,]$ttl)
         max_ttl <- max(data[data$dst == ip,]$ttl)
         if (min_ttl == max_ttl) { next }
