@@ -14,7 +14,7 @@ tau <- function(n) {
 
 remove_lost_traces <- function(data) {
 
-    for (ip in levels(data$dst9)) {
+    for (ip in levels(data$dst)) {
         min_ttl <- min(data[data$dst == ip,]$ttl)
         max_ttl <- max(data[data$dst == ip,]$ttl)
         if (min_ttl == max_ttl) { next }
@@ -32,15 +32,12 @@ read_trace_data <- function(filename) {
 }
 
 mean_rtt_to_delta <- function(data) {
+    data <- data[order(data$ttl),]
     . <- c(0, data$mean.rtt[1:(nrow(data) - 1)])
     data$mean.rtt - .
 }
 
-rtt_medios <- function(data, ips_table = NULL,
-                       first_hop = 1,
-                       FUN = mean) {
-    
-    stopifnot(!is.null(ips_table))
+rtt_medios <- function(data, first_hop = 1, FUN = mean) {
     
     res <- aggregate(list(data$rtt, data$ttl), by=list(data$dst), FUN)
     names(res)  <- c("dst", "mean.rtt","ttl")
@@ -48,10 +45,7 @@ rtt_medios <- function(data, ips_table = NULL,
     rownames(res) <- 1:nrow(res)
     res <- res[c("dst", "ttl","mean.rtt")]
 
-    res <- merge(res, ips_table, by.x="dst", by.y="Host", all.x = TRUE)
-    res <- res[order(res$ttl),]
     res$deltas <- mean_rtt_to_delta(res)
-
     res$deltas[res$deltas < 0] <- 0
  
     if (first_hop > 1) { res <- res[first_hop:nrow(res), ] }
@@ -62,8 +56,22 @@ rtt_medios <- function(data, ips_table = NULL,
 
     row.names(res) <- 1:nrow(res)
     res
+}
+
+add_ips_locations <- function(data, ips_table = NULL) {
+    stopifnot(!is.null(ips_table))
+    res <- merge(data, ips_table, by.x="dst", by.y="Host", all.x = TRUE)
+    res[order(res$ttl),]
+}
+
+
+add_other_ips_locations <- function(data, ips_table = NULL) {
+    stopifnot(!is.null(ips_table))
+    res <- merge(data, ips_table, by="dst",  all.x = TRUE)
+    res[order(res$ttl),]
 
 }
+
 
 
 #' simple plot:
@@ -71,13 +79,13 @@ rtt_medios <- function(data, ips_table = NULL,
 #' x <- rtt_medios(data)
 #' plot (x$deltas, type="l")
 
-create_table <- function(filename) {
-    data <- read_trace_data(filename)
-    out <- rtt_medios(data)
-    out.filename <- paste(tools::file_path_sans_ext(filename), "trace-table", sep=".")
-    write.table(out, file=out.filename)
-    cat(out.filename, " created")
-}
+## create_table <- function(filename) {
+##     data <- read_trace_data(filename)
+##     out <- rtt_medios(data)
+##     out.filename <- paste(tools::file_path_sans_ext(filename), "trace-table", sep=".")
+##     write.table(out, file=out.filename)
+##     cat(out.filename, " created")
+## }
 
 split_outliers <- function(data) {
     stopifnot(is.vector(data))
@@ -112,6 +120,4 @@ split_outliers_impl <- function(vec, outliers=c()) {
     }
 }
 
-count_outliers <- function(data) {
-    sum(data$outlier)
-}
+count_outliers <- function(data) { sum(data$outlier) }

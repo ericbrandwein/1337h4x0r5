@@ -7,10 +7,11 @@ get_ips_table <- function(filename = NULL) {
 }
 
 
-get_table <-  function(filename, ips_table = NULL, first_hop = 1) {
-    stopifnot(!is.null(ips_table))
+get_table <-  function(filename, ips_table = NULL, ips_table_other = NULL, first_hop = 1) {
+    stopifnot(!is.null(ips_table) || !is.null(ips_table_other))
     data <- read_trace_data(filename)
-    rtt_medios(data, ips_table, first_hop)
+    data <- add_ips_locations(rtt_medios(data, first_hop), ips_table)
+    add_other_ips_locations (data, ips_table_other)
 }
 
 get_trace_tables <- function(data_dirname, first_hop = 1) {
@@ -18,12 +19,12 @@ get_trace_tables <- function(data_dirname, first_hop = 1) {
     dirname <- normalizePath(data_dirname)
     tables_dirname <- file.path(dirname, "scapy-traceroute/muestra")
     ips_table <- get_ips_table(file.path(dirname, "ip-location.csv"))
-
-    trace_tables_fnames <- list.files(tables_dirname, pattern="csv$",
-                         full.names=TRUE)
+    ips_table_other <- get_geolite2_data_resumen(file.path(dirname, "geolite2-resumen.csv"))
+    
+    trace_tables_fnames <- list.files(tables_dirname, pattern="csv$", full.names=TRUE)
 
     res <- lapply(trace_tables_fnames, function(fnames)
-        get_table(fnames, ips_table, first_hop))
+        get_table(fnames, ips_table, ips_table_other, first_hop))
     
     names(res) <- sapply(trace_tables_fnames, function(x) {
         gsub("-", ".", basename(tools::file_path_sans_ext(x)))

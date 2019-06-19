@@ -58,6 +58,12 @@ get_geolite2_data <- function (data_dirname) {
     data
 }
 
+get_geolite2_data_resumen <- function (data_dirname) {
+    filename <- file.path(normalizePath(data_dirname))
+    data=read.csv(filename)
+    data[c("dst", "latitud", "longitud")]
+}
+
 network_to_range <- function(networks) {
     net_mask <- strsplit(networks, "/", fixed=TRUE)
     qss <- lapply(net_mask, function(x) as.integer(unlist(strsplit(x[[1]], ".", fixed=TRUE))))
