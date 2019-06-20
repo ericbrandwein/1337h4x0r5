@@ -65,12 +65,13 @@ Luego, se calcula la media de los RTT de los
 paquetes de cada TTL e IP, para estimar el RTT de un paquete promedio al router
 correspondiente. Con estos RTTs promedio calculamos la diferencia entre un 
 router y el siguiente en la ruta, para luego poder identificar los enlaces
-más lentos. Una cuestión a notar relacionada con este punto, es que, a diferencia
-de la herrmienta traceroute de Linux que provee en numerosas ocasiones más de un
-HOP para un TTL dado, nuestros datos no presentan esa situación. Nuestra
-hipótesis en relación a esto es que dado que los paquetes se envían en ráfagas
-según TTL, los algoritmos de \emph{load balancing} los envíen conjuntamente por
-las mismas rutas.
+más lentos. 
+% Una cuestión a notar relacionada con este punto es que, a diferencia
+% de la herrmienta traceroute de Linux que provee en numerosas ocasiones más de un
+% HOP para un TTL dado, nuestros datos no presentan esa situación. Nuestra
+% hipótesis en relación a esto es que dado que los paquetes se envían en ráfagas
+% según TTL, los algoritmos de \emph{load balancing} los envíen conjuntamente por
+% las mismas rutas.
 
 Luego, para cada ruta encontramos los RTT de mayor magnitud con
 el método de identificación de outliers propuesto por Cimbala. Además,
@@ -89,10 +90,24 @@ combinando los tiempos de tardanza de muchos routers diferentes en uno solo.
 Algunos paquetes, además, parecen tardar menos en alcanzar algunos routers en la
 ruta en comparación a routers anteriores, lo cual no tiene sentido físico. Las
 diferencias entre RTTs que nos resultan negativos debido a estas
-particularidades las ignoramos, y tomamos en cambio como si hubiese RTT igual a
+particularidades las ignoramos para el cálculo de outliers,
+y tomamos en cambio como si hubiese RTT igual a
 0. Una suposición que podemos hacer es que esos routers posteriores tienen menos
 carga de paquetes o son más rápidos en responder paquetes de su buffer, y por lo
-tanto su respuesta es más rápida que la de los routers anteriores. Otra posibilidad
+tanto su respuesta es más rápida que la de los routers anteriores.
+Otra posibilidad es que haya en la ruta un MPLS 
+(MultiProtocol Label Switching). Esta es una técnica de enrutamiento que
+disminuye la cantidad de entradas necesarias en la tabla de enrutamiento,
+encapsulando el paquete IP en un marco al que se le copia el TTL, entre otras
+cosas. Mientras el paquete pasa por este "túnel", el TTL sigue disminuyendo.
+La desventaja de este métodos es que cada router conoce
+solamente el próximo hop del paquete, y por lo tanto para enviar el mensaje
+de error de TTL expired debe enviar el paquete
+al último router del MPLS. Esto hace que
+los RTT de cada router en un MPLS sean parecidos entre sí, y algunos de estos
+RTTs siguientes podría ser menor a alguno de los anteriores. Si esto fuese
+efectivamente lo que ocurre en nuestro caso,
+la diferencia negativa en los RTTs debería ser pequeña en valor absoluto.
 
 Un último filtro aplicado es el de eliminar los primeros hops, que pertenecen
 a routers de IP privada. Una de las razones es que el primer hop parece
@@ -100,3 +115,6 @@ tardar demasiado, probablemente por el hecho de que estamos utilizando una
 conexión WiFi para extraer los datos. Otra razón es la de que no nos parecen
 relevantes para el análisis de la ruta en términos generales; no nos parece que
 aporten información suficientemente útil.
+
+Veremos también cómo el cambio de proveedor de Internet afecta o no a los 
+resultados.
