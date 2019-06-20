@@ -39,12 +39,12 @@ plot_ips_table.list<- function (tables, data.dirname = NULL) {
 
 plot_ips_table.data.frame <- function(table, out_filename = NULL) {
     data <- table
-
     if (!is.null(out_filename)) {
+        top.title <- basename(out_filename)
         png(paste(out_filename, "png", sep="."), height=300*2, width=720*2)
     }
     
-    par(mar=c(0,0,0,0))
+    par(mar=c(0.,0,0,0))
     map ('world', col="#e2e2e2", fill=TRUE, bg="white", lwd=0.5,mar=rep(0,4),
          border=0,
          xlim=get_limits(data$Long),
@@ -60,7 +60,11 @@ plot_ips_table.data.frame <- function(table, out_filename = NULL) {
                                 breakAtDateLine=FALSE,
                                 addStartEnd=TRUE) 
         lines(inter, col="slateblue", lwd=2)
-     }
+    }
 
-    if (!is.null(out_filename)) {  dev.off() }
+    if (!is.null(out_filename)) {
+        title(top.title)
+        ##legend("topright", top.title,  horiz = TRUE, fill = colors)
+        dev.off()
+    }
 }

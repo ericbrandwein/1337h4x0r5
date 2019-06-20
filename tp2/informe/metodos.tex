@@ -62,10 +62,17 @@ Para analizar los datos resultantes desarrollamos distintas herramientas en R.
 Lo primero que se hace es filtrar las entradas de los CSVs según métodos 
 explicados más adelante.
 Luego, se calcula la media de los RTT de los
-paquetes de cada TTL, para estimar el RTT de un paquete promedio al router
+paquetes de cada TTL e IP, para estimar el RTT de un paquete promedio al router
 correspondiente. Con estos RTTs promedio calculamos la diferencia entre un 
 router y el siguiente en la ruta, para luego poder identificar los enlaces
-más lentos. Luego, para cada ruta encontramos los RTT de mayor magnitud con
+más lentos. Una cuestión a notar relacionada con este punto, es que, a diferencia
+de la herrmienta traceroute de Linux que provee en numerosas ocasiones más de un
+HOP para un TTL dado, nuestros datos no presentan esa situación. Nuestra
+hipótesis en relación a esto es que dado que los paquetes se envían en ráfagas
+según TTL, los algoritmos de \emph{load balancing} los envíen conjuntamente por
+las mismas rutas.
+
+Luego, para cada ruta encontramos los RTT de mayor magnitud con
 el método de identificación de outliers propuesto por Cimbala. Además,
 obtenemos las ubicaciones en el mapa de los routers por los que pasa 
 el paquete con un servicio de Internet que la obtiene según una dirección IP.
@@ -73,19 +80,19 @@ Contrastaremos estas dos fuentes de información para ver si se condicen las
 conexiones de Internet intercontinentales con los aumentos de RTT. 
 
 Los paquetes para los que no hubo respuesta son obviados de este cálculo. 
-Por lo tanto, es posible que ocurra que no tenemos información para alguno de 
-los hops de una ruta. Lo que hacemos en este caso es hacer como que el hop no
-existe, y calcular su RTT como igual al del router anterior. Esto podría
+Por lo tanto, es posible que ocurra que no tengamos información para alguno de 
+los hops de una ruta. Lo que hacemos en este caso es ignorar el hop,
+y calcular su RTT como igual al del router anterior. Esto podría
 producir resultados no tan fieles a la realidad, porque se podrían estar
 combinando los tiempos de tardanza de muchos routers diferentes en uno solo.
 
-Algunos paquetes, además, parecen tardar menos en alcanzar algunos routers
-en la ruta en comparación a routers anteriores, lo cual no tiene sentido
-físico. Los RTTs que nos resultan negativos debido a estas particularidades
-los ignoramos, y tomamos en cambio como si hubiese RTT igual a 0. Una
-suposición que podemos hacer es que esos routers posteriores tienen menos carga
-de paquetes o son más rápidos en responder paquetes de su buffer, y por lo
-tanto su respuesta es más rápida que la de los routers anteriores.
+Algunos paquetes, además, parecen tardar menos en alcanzar algunos routers en la
+ruta en comparación a routers anteriores, lo cual no tiene sentido físico. Las
+diferencias entre RTTs que nos resultan negativos debido a estas
+particularidades las ignoramos, y tomamos en cambio como si hubiese RTT igual a
+0. Una suposición que podemos hacer es que esos routers posteriores tienen menos
+carga de paquetes o son más rápidos en responder paquetes de su buffer, y por lo
+tanto su respuesta es más rápida que la de los routers anteriores. Otra posibilidad
 
 Un último filtro aplicado es el de eliminar los primeros hops, que pertenecen
 a routers de IP privada. Una de las razones es que el primer hop parece
