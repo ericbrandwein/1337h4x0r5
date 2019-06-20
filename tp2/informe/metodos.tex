@@ -90,7 +90,8 @@ combinando los tiempos de tardanza de muchos routers diferentes en uno solo.
 Algunos paquetes, además, parecen tardar menos en alcanzar algunos routers en la
 ruta en comparación a routers anteriores, lo cual no tiene sentido físico. Las
 diferencias entre RTTs que nos resultan negativos debido a estas
-particularidades las ignoramos, y tomamos en cambio como si hubiese RTT igual a
+particularidades las ignoramos para el cálculo de outliers,
+y tomamos en cambio como si hubiese RTT igual a
 0. Una suposición que podemos hacer es que esos routers posteriores tienen menos
 carga de paquetes o son más rápidos en responder paquetes de su buffer, y por lo
 tanto su respuesta es más rápida que la de los routers anteriores.
