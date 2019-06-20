@@ -92,7 +92,20 @@ diferencias entre RTTs que nos resultan negativos debido a estas
 particularidades las ignoramos, y tomamos en cambio como si hubiese RTT igual a
 0. Una suposición que podemos hacer es que esos routers posteriores tienen menos
 carga de paquetes o son más rápidos en responder paquetes de su buffer, y por lo
-tanto su respuesta es más rápida que la de los routers anteriores. Otra posibilidad
+tanto su respuesta es más rápida que la de los routers anteriores.
+Otra posibilidad es que haya en la ruta un MPLS 
+(MultiProtocol Label Switching). Esta es una técnica de enrutamiento que
+disminuye la cantidad de entradas necesarias en la tabla de enrutamiento,
+encapsulando el paquete IP en un marco al que se le copia el TTL, entre otras
+cosas. Mientras el paquete pasa por este "túnel", el TTL sigue disminuyendo.
+La desventaja de este métodos es que cada router conoce
+solamente el próximo hop del paquete, y por lo tanto para enviar el mensaje
+de error de TTL expired debe enviar el paquete
+al último router del MPLS. Esto hace que
+los RTT de cada router en un MPLS sean parecidos entre sí, y algunos de estos
+RTTs siguientes podría ser menor a alguno de los anteriores. Si esto fuese
+efectivamente lo que ocurre en nuestro caso,
+la diferencia negativa en los RTTs debería ser pequeña en valor absoluto. 
 
 Un último filtro aplicado es el de eliminar los primeros hops, que pertenecen
 a routers de IP privada. Una de las razones es que el primer hop parece
