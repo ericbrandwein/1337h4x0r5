@@ -42,7 +42,13 @@ get_trace_tables <- function(data_dirname, first_hop = 1) {
     res
 }
 
-
+get_dst_addresses <- function (data) { UseMethod("get_dst_addresses") }
+get_dst_addresses.data.frame <- function(data) { levels(data$dst) }
+get_dst_addresses.list <- function(data) {
+    df <- as.data.frame(sort(unique(unlist(lapply(data, get_dst_addresses)))))
+    names(df) <- "dst"
+    df
+}
 
 get_raw_tables <- function(dirname) {
     stopifnot(!is.null(dirname))

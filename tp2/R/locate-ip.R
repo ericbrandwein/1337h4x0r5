@@ -20,10 +20,18 @@ find_ip <- function(ip_num, ip_database) {
     ip_database[row, ]
 }
 
-
-find_ip_index <- function(ip_num, ip_database) {
-    stopifnot(is.numeric(ip_num))
-    row <- ip_database$ip.from < ip_num & ip_num < ip_database$ip.to
+find_ip_index <- function(ips, ips_ranges) UseMethod("find_ip_index")
+find_ip_index.character <- function(ips, ips_ranges) {
+    find_ip_index(sapply(ips, ip_to_num), ips_ranges)
+    ##sapply(ips, function(ips) find_ip_index(ip_to_num(ips), ips_ranges))
+    ##sapply(data, functionfind_ip_index (ip_to_num (data))
+}
+find_ip_index.numeric <- function(ip_num, ip_database) {
+    sapply(ip_num, function(ip) find_single_ip_index(ip, ip_database))
+}
+find_single_ip_index <- function(ip_num, ip_database) {
+    stopifnot(length(ip_num) == 1)
+        row <- ip_database$ip.from < ip_num & ip_num < ip_database$ip.to
     row <- which(row)
     if (length(row) == 0) {
         row <- 0
@@ -35,9 +43,9 @@ find_ip_index <- function(ip_num, ip_database) {
         row <- row[1]
     }
     row
-}
 
-get_ip_table <- function(ips_strings,  ip_database) {
+}
+create_ip_table <- function(ips_strings,  ip_database) {
     #ips <- sapply(ips_strings, ip_to_num)
     res <- data.frame()
     for (ip_str in ips_strings) {
@@ -56,6 +64,38 @@ get_geolite2_data <- function (data_dirname) {
     filename <- file.path(normalizePath(data_dirname), "GeoLite2-City-CSV_20190618/GeoLite2-City-Blocks-IPv4.csv")
     data=read.csv(filename, stringsAsFactors=FALSE)
     data
+}
+
+#' Esta funcion tarda mucho, pero es solo para una vez
+create_geolite2_data_resumen <- function(ips_database, ips) {
+    UseMethod("create_geolite2_data_resumen")
+}
+create_geolite2_data_resumen.character <- function(ips_database, ips) {
+    ## ips_database es el nombre de ./data :)
+    create_geolite2_data_resumen (get_geolite2_data(ips_database), ips)
+}
+
+create_geolite2_data_resumen.data.frame <- function(geolite2, ips) {
+
+    ip.ranges <- network_to_range(geolite2$network)
+    ip.indexes <- find_ip_index(ips, ip.ranges)
+    stopifnot(length(ips) == length(ip.indexes))
+    ##return(ip.indexes)
+    res <- data.frame()
+    geo.cols <- geolite2[c("latitude","longitude")]
+    #geo.cols[ip.indexes,]
+    for (i in 1:length(ips)) {
+        index <- ip.indexes[i]
+        row <- geo.cols[index,]
+        if (nrow(row) == 0) {
+            cat(ips[i], " not found\n")
+            next 
+        } 
+        res <- rbind(res, cbind(ips[i], row, index))
+    }
+    names(res) <- c("dst","latitud","longitud", "index")
+    cat ("encontramos ", nrow(res), " ips.\n")
+    res
 }
 
 get_geolite2_data_resumen <- function (data_dirname) {
