@@ -14,6 +14,16 @@ get_table <-  function(filename, ips_table = NULL, ips_table_other = NULL, first
     add_other_ips_locations (data, ips_table_other)
 }
 
+get_trace_only_table <- function (filename) {
+    rtt_medios (read_trace_data (filename))
+}
+
+#' get_trace_tables:
+#'     obtenes una lista con todas las tablas en ../data/scapy-traceroute/muestra
+#'
+#' Para solo una tabla y SIN localización usar:
+#' > get_trace_only_table (filename)
+#' 
 get_trace_tables <- function(data_dirname, first_hop = 1) {
     stopifnot(!is.null(data_dirname))
     dirname <- normalizePath(data_dirname)
