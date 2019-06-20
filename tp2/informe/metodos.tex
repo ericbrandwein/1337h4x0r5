@@ -65,12 +65,13 @@ Luego, se calcula la media de los RTT de los
 paquetes de cada TTL e IP, para estimar el RTT de un paquete promedio al router
 correspondiente. Con estos RTTs promedio calculamos la diferencia entre un 
 router y el siguiente en la ruta, para luego poder identificar los enlaces
-más lentos. Una cuestión a notar relacionada con este punto, es que, a diferencia
-de la herrmienta traceroute de Linux que provee en numerosas ocasiones más de un
-HOP para un TTL dado, nuestros datos no presentan esa situación. Nuestra
-hipótesis en relación a esto es que dado que los paquetes se envían en ráfagas
-según TTL, los algoritmos de \emph{load balancing} los envíen conjuntamente por
-las mismas rutas.
+más lentos. 
+% Una cuestión a notar relacionada con este punto es que, a diferencia
+% de la herrmienta traceroute de Linux que provee en numerosas ocasiones más de un
+% HOP para un TTL dado, nuestros datos no presentan esa situación. Nuestra
+% hipótesis en relación a esto es que dado que los paquetes se envían en ráfagas
+% según TTL, los algoritmos de \emph{load balancing} los envíen conjuntamente por
+% las mismas rutas.
 
 Luego, para cada ruta encontramos los RTT de mayor magnitud con
 el método de identificación de outliers propuesto por Cimbala. Además,
@@ -105,7 +106,7 @@ al último router del MPLS. Esto hace que
 los RTT de cada router en un MPLS sean parecidos entre sí, y algunos de estos
 RTTs siguientes podría ser menor a alguno de los anteriores. Si esto fuese
 efectivamente lo que ocurre en nuestro caso,
-la diferencia negativa en los RTTs debería ser pequeña en valor absoluto. 
+la diferencia negativa en los RTTs debería ser pequeña en valor absoluto.
 
 Un último filtro aplicado es el de eliminar los primeros hops, que pertenecen
 a routers de IP privada. Una de las razones es que el primer hop parece
