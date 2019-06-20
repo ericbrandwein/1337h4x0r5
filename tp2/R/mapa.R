@@ -63,7 +63,7 @@ plot_ips_table.data.frame <- function(table, out_filename = NULL) {
     }
 
     if (!is.null(out_filename)) {
-        title(top.title)
+        #title(top.title)
         ##legend("topright", top.title,  horiz = TRUE, fill = colors)
         dev.off()
     }

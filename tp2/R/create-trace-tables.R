@@ -11,7 +11,9 @@ get_table <-  function(filename, ips_table = NULL, ips_table_other = NULL, first
     stopifnot(!is.null(ips_table) || !is.null(ips_table_other))
     data <- read_trace_data(filename)
     data <- add_ips_locations(rtt_medios(data, first_hop), ips_table)
-    add_other_ips_locations (data, ips_table_other)
+    res <- add_other_ips_locations (data, ips_table_other)
+    row.names(res) <- 1:nrow(res)
+    res
 }
 
 get_trace_only_table <- function (filename) {
