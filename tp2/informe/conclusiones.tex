@@ -1,0 +1,10 @@
+La primera conclusión a la que podemos llegar es la de que los servicios
+de ubicación según IP no son del todo confiables. De todas formas, pudimos 
+realizar teorías sobre las posiciones reales de los routers, y llegamos con
+ellas a resultados de outliers un poco más plausibles. El algoritmo de
+Cimbala demostró ser bastante exacto, si es que nuestras teorías fueron
+correctas, excepto en el primer hop y en casos con muchas diferencias iguales
+a 0, por el hecho de no tener suficientes muestras para detectar con seguridad
+outliers. Además, la muestra de la Universidad de Pekín tuvo menos hops: 19 contra
+los 23 y 28 de las demás. Podemos ver que cuantos más hops, más outliers se descubrían,
+y eran outliers que se correspondían con las conexiones internacionales.

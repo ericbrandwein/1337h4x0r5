@@ -33,7 +33,7 @@ El mapa de conexiones correspondiente es:
 \end{center}
     
 
-Podemos ver que hay 4 outliers. El primero es el del primer hop, que corresponde
+Podemos ver que hay 3 outliers. El primero es el del primer hop, que corresponde
 al hop de la computadora al router WiFi. Suponemos que esto se podría deber a
 un conjunto de cosas variadas:
 \begin{enumerate}
@@ -50,17 +50,23 @@ entre Argentina y Estados Unidos. Esto parece tener sentido, y parece indicar
 correctamente que entre la Argentina y Estados Unidos existe una conexión de
 larga distancia, aunque no se pueda considerar intercontinental.
 
-El tercero y el cuarto, en cambio, no parecen reflejar correctamente saltos
-intercontinentales. Si analizamos mejor los datos, nos damos cuenta que ningún
+El tercero, en cambio, no parece reflejar correctamente saltos
+intercontinentales. Es posible que la cause sea la falsa respuesta del servicio
+de ubicación que utilizamos. Podría ser que la primer IP de Europa sea en
+realidad de Estados Unidos, y entonces el cálculo de outliers en realidad fue
+certero.
+
+De todas formas, la falta de hops no pareció afectar al cálculo de outliers;
+si lo hubiese afectado por haber sumado los RTT al siguiente, podría haber sido
+ese un outlier, pero no fue así. 
+
+Si analizamos mejor los datos, nos damos cuenta que ningún
 TTL desde el 14 supera a un RTT de alrededor de 0,3ms. Podría estar ocurriendo,
 como explicamos previamente, que hubiese un MPLS que esté compuesto de algunos
 o todos de los routers en esa zona. También podría ocurrir que simplemente
 la cantidad de paquetes enviados no haya sido suficiente para representar los
-RTT verdaderos, y por lo tanto aparecen con un desvío mayor al real. Otra causa
-de la predicción errónea del tercer outlier es la falsa respuesta del servicio
-de ubicación que utilizamos. Es posible que la primer IP de Europa sea en
-realidad de Estados Unidos, y entonces el cálculo de outliers en realidad fue
-certero.
+RTT verdaderos.
+
 
 \subsection{Universidad de Tel Aviv}
 Esta muestra se realizó desde la casa de Nicolás, con destino a la página web
@@ -94,3 +100,41 @@ Unidos.
 El mapa también muestra que se va y vuelve de Europa a Estados Unidos continuamente.
 Esto también sospechamos que es culpa del servicio de ubicación. Es difícil,
 por lo tanto, extraer conclusiones de esta muestra.
+
+
+\subsection{Universidad de Pekín}
+Esta muestra se realizó desde la casa de Eric, con destino a la página web de 
+la Universidad de Pekín, de URL pku.edu.cn e IP 162.105.129.103.
+A continuación se muestran los resultados obtenidos.
+
+\input{tabla-pekin.tex}
+
+El mapa de conexiones correspondiente es:
+
+\begin{center}
+    \includegraphics[scale=0.4]{eric2-pekin.png}
+\end{center}
+
+Todos los paquetes posteriores al de TTL 10 tienen menor RTT que él. Tomando
+en cuenta que todos los routers se encuentran en el continente asiático, es
+posible que este hecho sea producto de una baja cantidad de paquetes enviados
+por TTL por nuestra parte. También es posible que el router con distancia 10
+hubiese tenido una carga alta en ese momento, y entonces tardó mucho en enviar
+de vuelta el mensaje de error de TTL expirado. Podemos asumir que el router que
+parece estar en Australia en realidad es un error del servicio de ubicación.
+Si el caso no fuese así, querría decir que el tiempo que se tarda desde Hong Kong
+a Australia es muy pequeño, lo cual no parece probable.
+
+De nuevo vemos que nos aparece el router de dirección IP 185.70.203.32
+de Italia entre los de Argentina y Estados Unidos. Nuestra sospecha de que 
+es en realidad un router estadounidense o argentino se acrecenta.
+
+También vemos que no hay outliers en esta muestra. Aunque, si analizamos
+los paquetes con diferencias de RTT mayores, vemos que la conexión entre
+lo que suponemos que es un router argentino y el estadounidense es la mayor,
+lo cual podríamos interpretar como una conexión de larga distancia. 
+
+El hecho de que no haya outliers es muy probablemente causado por la ignorancia
+de las diferencias iguales a 0. Si no se ignoracen, probablemente aparecerían
+muchos outliers; hasta algunos que en realidad no serían conexiones
+intercontinentales. 
