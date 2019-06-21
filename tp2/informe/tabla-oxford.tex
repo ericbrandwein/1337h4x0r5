@@ -1,69 +1,38 @@
-% Created 2019-06-20 jue 20:32
-% Intended LaTeX compiler: pdflatex
-\documentclass[11pt]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{graphicx}
-\usepackage{grffile}
-\usepackage{longtable}
-\usepackage{wrapfig}
-\usepackage{rotating}
-\usepackage[normalem]{ulem}
-\usepackage{amsmath}
-\usepackage{textcomp}
-\usepackage{amssymb}
-\usepackage{capt-of}
-\usepackage{hyperref}
-\author{nsm}
-\date{\today}
-\title{}
-\hypersetup{
- pdfauthor={nsm},
- pdftitle={},
- pdfkeywords={},
- pdfsubject={},
- pdfcreator={Emacs 26.1 (Org mode 9.2.3)}, 
- pdflang={English}}
-\begin{document}
-
-\tableofcontents
-
 \begin{center}
-\begin{tabular}{rrrll}
-dst & ttl & mean.rtt & Timezone & Pais\\
+\begin{tabular}{lcccc}
+Destino & TTL & RTT & Zona Horaria & País\\
 \hline
-192.168.0.1 & 1 & 0.04538869 & <NA> & <NA>\\
-200.89.165.86 & 5 & 0.05430764 & None & AR\\
-200.89.165.149 & 6 & 0.05146670 & None & AR\\
-200.89.165.85 & 6 & 0.05371330 & None & AR\\
-200.89.165.1 & 7 & 0.05211499 & None & AR\\
-200.89.165.130 & 7 & 0.05384665 & None & AR\\
-200.89.165.222 & 8 & 0.05457461 & None & AR\\
-200.89.165.250 & 8 & 0.05595906 & None & AR\\
-190.216.88.33 & 9 & 0.05468848 & Buenos\textsubscript{Aires} & AR\\
-67.17.94.249 & 10 & 0.17580819 & None & US\\
-67.17.99.233 & 10 & 0.18295765 & None & US\\
-4.69.207.29 & 12 & 0.17595530 & None & US\\
-213.248.84.80 & 13 & 0.17912588 & Europe/Vaduz & None\\
-62.115.119.230 & 14 & 0.29029322 & Europe/Vaduz & None\\
-62.115.120.176 & 14 & 0.30006517 & Europe/Vaduz & None\\
-62.115.136.200 & 15 & 0.30010971 & Europe/Vaduz & None\\
-62.115.141.245 & 15 & 0.29688158 & Europe/Vaduz & None\\
-62.115.112.245 & 16 & 0.29005424 & Europe/Vaduz & None\\
-62.115.113.21 & 16 & 0.29445747 & Europe/Vaduz & None\\
-213.155.132.195 & 17 & 0.30028347 & Europe/Vaduz & None\\
-213.155.132.197 & 17 & 0.29843348 & Europe/Vaduz & None\\
-62.115.148.161 & 18 & 0.29240237 & Europe/Vaduz & None\\
-146.97.35.193 & 19 & 0.28767490 & Europe/London & GB\\
-146.97.33.62 & 20 & 0.30540899 & Europe/London & GB\\
-146.97.33.5 & 21 & 0.28970429 & Europe/London & GB\\
-146.97.37.194 & 22 & 0.29844862 & Europe/London & GB\\
-193.63.108.94 & 23 & 0.30389028 & Europe/London & GB\\
-193.63.108.98 & 24 & 0.29854251 & Europe/London & GB\\
-193.63.109.90 & 25 & 0.30345439 & Europe/London & GB\\
-192.76.32.62 & 27 & 0.30002125 & Europe/London & GB\\
-129.67.242.154 & 28 & 0.29852787 & Europe/London & GB\\
-129.67.242.155 & 28 & 0.29153364 & Europe/London & GB\\
+192.168.0.1 & 1 & 0.04538869 & NA & NA\\
+200.89.165.86 & 5 & 0.05430764 & NA & AR\\
+200.89.165.149 & 6 & 0.05146670 & NA & AR\\
+200.89.165.85 & 6 & 0.05371330 & NA & AR\\
+200.89.165.1 & 7 & 0.05211499 & NA & AR\\
+200.89.165.130 & 7 & 0.05384665 & NA & AR\\
+200.89.165.222 & 8 & 0.05457461 & NA & AR\\
+200.89.165.250 & 8 & 0.05595906 & NA & AR\\
+190.216.88.33 & 9 & 0.05468848 & Buenos Aires & AR\\
+67.17.94.249 & 10 & 0.17580819 & NA & US\\
+67.17.99.233 & 10 & 0.18295765 & NA & US\\
+4.69.207.29 & 12 & 0.17595530 & NA & US\\
+213.248.84.80 & 13 & 0.17912588 & Vaduz & NA\\
+62.115.119.230 & 14 & 0.29029322 & Vaduz & NA\\
+62.115.120.176 & 14 & 0.30006517 & Vaduz & NA\\
+62.115.136.200 & 15 & 0.30010971 & Vaduz & NA\\
+62.115.141.245 & 15 & 0.29688158 & Vaduz & NA\\
+62.115.112.245 & 16 & 0.29005424 & Vaduz & NA\\
+62.115.113.21 & 16 & 0.29445747 & Vaduz & NA\\
+213.155.132.195 & 17 & 0.30028347 & Vaduz & NA\\
+213.155.132.197 & 17 & 0.29843348 & Vaduz & NA\\
+62.115.148.161 & 18 & 0.29240237 & Vaduz & NA\\
+146.97.35.193 & 19 & 0.28767490 & London & GB\\
+146.97.33.62 & 20 & 0.30540899 & London & GB\\
+146.97.33.5 & 21 & 0.28970429 & London & GB\\
+146.97.37.194 & 22 & 0.29844862 & London & GB\\
+193.63.108.94 & 23 & 0.30389028 & London & GB\\
+193.63.108.98 & 24 & 0.29854251 & London & GB\\
+193.63.109.90 & 25 & 0.30345439 & London & GB\\
+192.76.32.62 & 27 & 0.30002125 & London & GB\\
+129.67.242.154 & 28 & 0.29852787 & London & GB\\
+129.67.242.155 & 28 & 0.29153364 & London & GB\\
 \end{tabular}
 \end{center}
-\end{document}

@@ -1,0 +1,26 @@
+\subsection{Universidad de Oxford}
+Esta muestra se realizó desde la casa de Franco, que tiene a Fibertel 
+como proveedor de Internet. Se hizo a la página web de la Universidad de Oxford,
+ox.ac.uk, de IP 129.67.242.154. 
+
+A continuación se muestra la tabla que representa los datos extraídos por la
+misma.
+
+\input{tabla-oxford.tex}
+
+Lo primero que podemos ver es que hay muchos saltos con TTL repetidos. Podemos
+asumir que esto es debido al \emph{load balancing}; la técnica de repartir
+paquetes con el mismo destino por distintas rutas, para no congestionar una
+ruta en particular. Lo malo de esto es que no tenemos un RTT único definido,
+sino que tenemos uno por cada IP con igual TTL, y por lo tanto no podemos
+definir la diferencia de RTT con precisión entre dos saltos.
+Para solucionar esto, tomamos el RTT del salto como el promedio de los RTTs
+de los distintos routers con el mismo TTL.
+
+Por otra parte, podemos ver que paquetes con algunos TTL no obtuvieron
+respuesta. Por ejemplo, desde el TTL 2 hasta el 4 no se obtuvo información. 
+Tampoco del 11 y del 26. Esto podría llegar a afectar a los cálculos de outliers.
+
+
+
+\subsection{Universidad de Tel Aviv}
